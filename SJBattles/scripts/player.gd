@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 signal button_prompt
 signal open_door
+signal open_door_two
 signal enter_door
 
 const ACCELERATION = 10
@@ -9,7 +10,9 @@ const MAX_SPEED = 100
 const FRICTION = 10
 
 var velocity = Vector2.ZERO
-var direction = Vector2.ZERO
+var direction = Vector2(-1, 0)
+
+var entering_door = false
 
 var door_action = false
 
@@ -31,9 +34,9 @@ func _physics_process(delta):
 		direction = input_vector
 		
 		if input_vector.x > 0:
-			AnimationPlayer.play('left')
-		elif input_vector.x < 0:
 			AnimationPlayer.play('right')
+		elif input_vector.x < 0:
+			AnimationPlayer.play('left')
 		else:
 			if input_vector.y > 0:
 				AnimationPlayer.play('down')
@@ -42,11 +45,31 @@ func _physics_process(delta):
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
 		
+		if not entering_door:
+			if direction.x > 0:
+				AnimationPlayer.play('idle_right')
+			elif direction.x < 0:
+				AnimationPlayer.play('idle_left')
+			else:
+				if direction.y > 0:
+					AnimationPlayer.play('idle_down')
+				elif direction.y < 0:
+					AnimationPlayer.play('idle_up')
+		
 	if Input.is_action_pressed('interact') and door_action:
-		emit_signal("open_door", self)
-		$AnimationPlayer.play("enter_door")
-		yield(get_tree().create_timer(1.2), "timeout")
-		get_tree().change_scene("res://scenes/hallway.tscn")
+		entering_door = true
+		if PlayerVariables.door_entered == 'Door':
+			emit_signal("open_door", self)
+			yield(get_tree().create_timer(1.2), "timeout")
+			AnimationPlayer.play("enter")
+			yield(get_tree().create_timer(2), "timeout")
+			get_tree().change_scene("res://scenes/hallway.tscn")
+		elif PlayerVariables.door_entered == 'Door2':
+			emit_signal("open_door_two", self)
+			yield(get_tree().create_timer(1.2), "timeout")
+			AnimationPlayer.play("enter")
+			yield(get_tree().create_timer(1.2), "timeout")
+			get_tree().change_scene("res://scenes/hallway.tscn")
 		
 	move_and_collide(velocity * delta * MAX_SPEED)
 	
@@ -55,9 +78,15 @@ func _physics_process(delta):
 		
 	var target = $RayCast2D.get_collider()
 	if target != null:
-		if target.name.find('Door') >= 0 and direction == Vector2(0, -1):
+		if target.name == 'Door' and direction == Vector2(0, -1):
 			if door_action != true:
 				door_action = true
+				PlayerVariables.door_entered = 'Door'
+				emit_signal("button_prompt", self)
+		elif target.name == 'Door2' and direction == Vector2(0, -1):
+			if door_action != true:
+				door_action = true
+				PlayerVariables.door_entered = 'Door2'
 				emit_signal("button_prompt", self)
 		else:
 			if door_action != false:

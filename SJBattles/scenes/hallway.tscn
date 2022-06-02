@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://assets/tilesets/TX Tileset Hallway Tiles.png" type="Texture" id=1]
 [ext_resource path="res://scripts/player.gd" type="Script" id=2]
@@ -7,102 +7,8 @@
 [ext_resource path="res://assets/tilesets/TX Tileset Stone Ground.png" type="Texture" id=5]
 [ext_resource path="res://assets/tilesets/TX Tileset School Exterior.png" type="Texture" id=6]
 [ext_resource path="res://assets/tilesets/TX Plant.png" type="Texture" id=7]
-[ext_resource path="res://assets/tilesets/TX Player.png" type="Texture" id=8]
+[ext_resource path="res://assets/tilesets/SPRITESHEET Male Walkcycle.png" type="Texture" id=8]
 [ext_resource path="res://assets/tilesets/TX Tileset Stone Ground Yellow.png" type="Texture" id=9]
-
-[sub_resource type="RectangleShape2D" id=27]
-extents = Vector2( 10.5, 22 )
-
-[sub_resource type="Animation" id=28]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 1 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:flip_h")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ true ]
-}
-
-[sub_resource type="Animation" id=29]
-resource_name = "down"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 0 ]
-}
-
-[sub_resource type="Animation" id=30]
-resource_name = "left"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 2 ]
-}
-
-[sub_resource type="Animation" id=31]
-resource_name = "right"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 4 ]
-}
-
-[sub_resource type="Animation" id=32]
-resource_name = "up"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 1 ]
-}
 
 [sub_resource type="TileSet" id=33]
 0/name = "TX Tileset Grass.png 0"
@@ -956,40 +862,198 @@ points = PoolVector2Array( 32, 64, 0, 64, 0, 0, 32, 0 )
 1/shapes = [  ]
 1/z_index = 0
 
+[sub_resource type="CapsuleShape2D" id=40]
+radius = 11.0
+height = 0.0
+
+[sub_resource type="Animation" id=41]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=42]
+resource_name = "down"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 22, 23, 24, 25, 26, 27 ]
+}
+
+[sub_resource type="Animation" id=43]
+resource_name = "enter"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 29, 30, 31, 32, 33, 34 ]
+}
+
+[sub_resource type="Animation" id=44]
+resource_name = "enter_door"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 28, 28, 29, 29, 30, 30, 31, 31, 32, 32, 33, 33 ]
+}
+
+[sub_resource type="Animation" id=45]
+resource_name = "idle_down"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 21, 22 ]
+}
+
+[sub_resource type="Animation" id=46]
+resource_name = "idle_left"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=47]
+resource_name = "idle_right"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 14, 15 ]
+}
+
+[sub_resource type="Animation" id=48]
+resource_name = "idle_up"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 7, 8 ]
+}
+
+[sub_resource type="Animation" id=49]
+resource_name = "left"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3, 4, 5, 6 ]
+}
+
+[sub_resource type="Animation" id=50]
+resource_name = "right"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 15, 16, 17, 18, 19, 20 ]
+}
+
+[sub_resource type="Animation" id=51]
+resource_name = "up"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 8, 9, 10, 11, 12, 13 ]
+}
+
 [node name="Node2D" type="Node2D"]
-
-[node name="player" type="KinematicBody2D" parent="."]
-script = ExtResource( 2 )
-
-[node name="Sprite" type="Sprite" parent="player"]
-position = Vector2( -114, 212 )
-z_index = 4
-texture = ExtResource( 8 )
-offset = Vector2( 114, -212 )
-flip_h = true
-hframes = 4
-vframes = 2
-frame = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
-position = Vector2( -0.5, 4 )
-shape = SubResource( 27 )
-
-[node name="Camera2D" type="Camera2D" parent="player"]
-current = true
-zoom = Vector2( 0.4, 0.4 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="player"]
-anims/RESET = SubResource( 28 )
-anims/down = SubResource( 29 )
-anims/left = SubResource( 30 )
-anims/right = SubResource( 31 )
-anims/up = SubResource( 32 )
-
-[node name="RayCast2D" type="RayCast2D" parent="player"]
-z_index = 4
-enabled = true
-cast_to = Vector2( 0, 32 )
 
 [node name="Tileset Path" type="TileMap" parent="."]
 z_index = 1
@@ -1035,3 +1099,43 @@ tile_set = SubResource( 39 )
 cell_size = Vector2( 32, 32 )
 format = 1
 tile_data = PoolIntArray( -1507381, 0, 0 )
+
+[node name="player" type="KinematicBody2D" parent="."]
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="player"]
+position = Vector2( -115, 212 )
+z_index = 4
+texture = ExtResource( 8 )
+offset = Vector2( 114, -212 )
+flip_h = true
+hframes = 7
+vframes = 5
+frame = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
+position = Vector2( 0, 8 )
+z_index = 4
+shape = SubResource( 40 )
+
+[node name="Camera2D" type="Camera2D" parent="player"]
+current = true
+zoom = Vector2( 0.4, 0.4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="player"]
+anims/RESET = SubResource( 41 )
+anims/down = SubResource( 42 )
+anims/enter = SubResource( 43 )
+anims/enter_door = SubResource( 44 )
+anims/idle_down = SubResource( 45 )
+anims/idle_left = SubResource( 46 )
+anims/idle_right = SubResource( 47 )
+anims/idle_up = SubResource( 48 )
+anims/left = SubResource( 49 )
+anims/right = SubResource( 50 )
+anims/up = SubResource( 51 )
+
+[node name="RayCast2D" type="RayCast2D" parent="player"]
+z_index = 4
+enabled = true
+cast_to = Vector2( 0, 32 )

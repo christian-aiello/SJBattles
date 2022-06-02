@@ -14,6 +14,10 @@ config/name="Brebeuf RPG"
 run/main_scene="res://scenes/main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+PlayerVariables="*res://scripts/player_variables.gd"
+
 [input]
 
 up={
