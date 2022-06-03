@@ -11,7 +11,7 @@ const MAX_SPEED = 100
 const FRICTION = 10
 
 var velocity = Vector2.ZERO
-var direction = Vector2(-1, 0)
+var direction = Vector2(1, 0)
 
 var entering_door = false
 var door_action = false
