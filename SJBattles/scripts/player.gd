@@ -4,6 +4,7 @@ signal button_prompt
 signal open_door
 signal open_door_two
 signal enter_door
+signal player_stats_changed
 
 const ACCELERATION = 10
 const MAX_SPEED = 100
@@ -13,10 +14,18 @@ var velocity = Vector2.ZERO
 var direction = Vector2(-1, 0)
 
 var entering_door = false
-
 var door_action = false
 
 onready var AnimationPlayer = $AnimationPlayer
+
+var health = 10
+var health_max = 10
+var health_regeneration = 0.1
+var mana = 10
+var mana_max = 10
+var mana_regeneration = 0.2
+
+
 
 func _ready():
 	emit_signal("button_prompt", self)
