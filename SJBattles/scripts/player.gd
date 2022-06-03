@@ -13,7 +13,7 @@ const FRICTION = 10
 var velocity = Vector2.ZERO
 var direction = Vector2(1, 0)
 
-var entering_door = false
+var action = false
 var door_action = false
 
 onready var AnimationPlayer = $AnimationPlayer
@@ -23,7 +23,7 @@ var health_max = 10
 var health_regeneration = 0.1
 var mana = 100
 var mana_max = 100
-var mana_regeneration = 5
+var mana_regeneration = 10
 
 func _process(delta):
 	var new_mana = min(mana + mana_regeneration * delta, mana_max)
@@ -44,6 +44,10 @@ func _input(event):
 	if event.is_action_pressed("textbook"):
 		if mana >= 25:
 			mana = mana - 25
+			action = true
+			AnimationPlayer.play("right_attack")
+			yield(get_tree().create_timer(0.6), 'timeout')
+			action = false
 		
 func _physics_process(delta):
 	var input_vector = Vector2.ZERO
@@ -51,25 +55,27 @@ func _physics_process(delta):
 	input_vector.y = Input.get_action_strength('down') - Input.get_action_strength('up')
 	input_vector = input_vector.normalized()
 	
+	
 	if input_vector != Vector2.ZERO:
 		velocity += input_vector * ACCELERATION * delta
 		velocity = velocity.clamped(MAX_SPEED * delta)
 		
 		direction = input_vector
 		
-		if input_vector.x > 0:
-			AnimationPlayer.play('right')
-		elif input_vector.x < 0:
-			AnimationPlayer.play('left')
-		else:
-			if input_vector.y > 0:
-				AnimationPlayer.play('down')
-			elif input_vector.y < 0:
-				AnimationPlayer.play('up')
+		if not action:
+			if input_vector.x > 0:
+				AnimationPlayer.play('right')
+			elif input_vector.x < 0:
+				AnimationPlayer.play('left')
+			else:
+				if input_vector.y > 0:
+					AnimationPlayer.play('down')
+				elif input_vector.y < 0:
+					AnimationPlayer.play('up')
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
 		
-		if not entering_door:
+		if not action:
 			if direction.x > 0:
 				AnimationPlayer.play('idle_right')
 			elif direction.x < 0:
@@ -81,12 +87,13 @@ func _physics_process(delta):
 					AnimationPlayer.play('idle_up')
 		
 	if Input.is_action_pressed('interact') and door_action:
-		entering_door = true
+		action = true
 		if PlayerVariables.door_entered == 'Door':
 			emit_signal("open_door", self)
 			yield(get_tree().create_timer(1.2), "timeout")
 			AnimationPlayer.play("enter")
 			yield(get_tree().create_timer(2), "timeout")
+			get_tree().change_scene("res://scenes/hallway.tscn")
 			get_tree().change_scene("res://scenes/hallway.tscn")
 		elif PlayerVariables.door_entered == 'Door2':
 			emit_signal("open_door_two", self)
@@ -95,7 +102,10 @@ func _physics_process(delta):
 			yield(get_tree().create_timer(1.2), "timeout")
 			get_tree().change_scene("res://scenes/hallway.tscn")
 		
-	move_and_collide(velocity * delta * MAX_SPEED)
+	if not action:
+		move_and_collide(velocity * delta * MAX_SPEED)
+	else:
+		move_and_collide(velocity * delta * MAX_SPEED * 0.3)
 	
 	if direction != Vector2.ZERO:
 		$RayCast2D.cast_to = direction.normalized() * 32
