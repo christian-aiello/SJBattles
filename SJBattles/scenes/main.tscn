@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://assets/tilesets/x_button.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Door.gd" type="Script" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://assets/tilesets/TX 10 HP.png" type="Texture" id=14]
 [ext_resource path="res://assets/tilesets/TX Mana Border .png" type="Texture" id=15]
 [ext_resource path="res://assets/tilesets/TX Mana Bar.png" type="Texture" id=16]
+[ext_resource path="res://scenes/Mana Bar.gd" type="Script" id=17]
 
 [sub_resource type="TileSet" id=1]
 0/name = "TX Tileset Grass.png 0"
@@ -1091,16 +1092,18 @@ tracks/0/keys = {
 [node name="Node2D" type="Node2D"]
 
 [node name="Mana Bar" type="CanvasLayer" parent="."]
+script = ExtResource( 17 )
 
 [node name="Border" type="Sprite" parent="Mana Bar"]
 position = Vector2( 86, 52 )
 texture = ExtResource( 15 )
 
 [node name="Bar" type="Sprite" parent="Mana Bar"]
-position = Vector2( 97.5, 91 )
+position = Vector2( 85, 52 )
+scale = Vector2( 1, 1.02684 )
 texture = ExtResource( 16 )
 region_enabled = true
-region_rect = Rect2( 29, 5, 125, 100 )
+region_rect = Rect2( 29, 8, 100, 16 )
 
 [node name="Health Bar" type="CanvasLayer" parent="."]
 
@@ -1239,3 +1242,4 @@ anims/open = SubResource( 43 )
 [connection signal="button_prompt" from="Player" to="Action Prompt/Sprite" method="_on_player_button_prompt"]
 [connection signal="open_door" from="Player" to="Door" method="_on_player_open_door"]
 [connection signal="open_door_two" from="Player" to="Door2" method="_on_player_open_door_two"]
+[connection signal="player_stats_changed" from="Player" to="Mana Bar" method="_on_Player_player_stats_changed"]

@@ -21,15 +21,30 @@ onready var AnimationPlayer = $AnimationPlayer
 var health = 10
 var health_max = 10
 var health_regeneration = 0.1
-var mana = 10
-var mana_max = 10
-var mana_regeneration = 0.2
+var mana = 100
+var mana_max = 100
+var mana_regeneration = 5
 
+func _process(delta):
+	var new_mana = min(mana + mana_regeneration * delta, mana_max)
+	if new_mana != mana:
+		mana = new_mana
+		emit_signal("player_stats_changed", self)
 
-
+	var new_health = min(health + health_regeneration * delta, health_max)
+	if new_health != health:
+		health = new_health
+		emit_signal("player_stats_changed", self)
+		
 func _ready():
 	emit_signal("button_prompt", self)
+	emit_signal("player_stats_changed", self)
 	
+func _input(event):
+	if event.is_action_pressed("textbook"):
+		if mana >= 25:
+			mana = mana - 25
+		
 func _physics_process(delta):
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength('right') - Input.get_action_strength('left')
