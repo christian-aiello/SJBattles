@@ -8,16 +8,17 @@
 script = ExtResource( 1 )
 
 [node name="Hero" parent="." instance=ExtResource( 2 )]
-position = Vector2( 109, 170 )
+position = Vector2( 98, 196 )
+scale = Vector2( 3.12952, 3.90132 )
 
 [node name="Enemy" parent="." instance=ExtResource( 3 )]
-position = Vector2( 687, 181 )
+position = Vector2( 662, 167 )
 
 [node name="XpLabel" type="Label" parent="."]
-margin_left = 74.0
-margin_top = 236.0
-margin_right = 114.0
-margin_bottom = 250.0
+margin_left = 96.0
+margin_top = 274.0
+margin_right = 136.0
+margin_bottom = 288.0
 text = "xp"
 
 [node name="EnemyHealthLabel" type="Label" parent="."]
@@ -44,18 +45,20 @@ text = "prompt"
 [node name="Timer" type="Timer" parent="."]
 
 [node name="ItemButton" type="Button" parent="."]
-margin_left = 146.0
-margin_top = 299.0
-margin_right = 189.0
-margin_bottom = 319.0
+margin_left = 148.0
+margin_top = 390.0
+margin_right = 191.0
+margin_bottom = 410.0
 text = "Item"
 
 [node name="AttackButton" type="Button" parent="."]
-margin_left = 33.0
-margin_top = 288.0
-margin_right = 85.0
-margin_bottom = 308.0
+margin_left = 42.0
+margin_top = 394.0
+margin_right = 94.0
+margin_bottom = 414.0
 text = "Attack"
 
+[connection signal="hero_attack" from="." to="Hero" method="_on_BattleArena_hero_attack"]
+[connection signal="hero_default" from="." to="Hero" method="_on_BattleArena_hero_default"]
 [connection signal="pressed" from="ItemButton" to="." method="_on_ItemButton_pressed"]
 [connection signal="pressed" from="AttackButton" to="." method="_on_AttackButton_pressed"]

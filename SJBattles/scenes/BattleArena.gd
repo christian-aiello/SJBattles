@@ -40,7 +40,10 @@ var rng = RandomNumberGenerator.new() #randomizer
 
 
 func _ready() -> void:
+	$Hero/Player/AnimationPlayer.stop()
+	
 	emit_signal("hero_default")
+	emit_signal("enemy_default")
 	emit_signal("sendEnemyVars", enemy_identity)
 	
 	#setting the variables based on which enemy it is
@@ -52,8 +55,7 @@ func _ready() -> void:
 	rng.randomize() #giving the randomizer randomness
 	update_health() #sets the healths
 	
-	emit_signal("hero_default")
-	emit_signal("enemy_default")
+	
 	
 	hero_turn()
 	
@@ -85,15 +87,17 @@ func is_game_done():
 		show_moves(false)
 		
 		
-		
+		"""
 		#dealing with the experience points
 		hero_xp += 150 #150 xp will be the reward for winning
 		hero_level += int(hero_xp / XP_PER_LEVEL) #100xp will be one level
 		hero_xp = hero_xp % XP_PER_LEVEL
 		update_health()
 		emit_signal("send_back_hero_stats", hero_level, hero_xp)
+		"""
 		
 		return true #making sure the script knows that the game is over
+		
 		
 	if hero_health <= 0:
 		#displaying ending info
@@ -173,6 +177,8 @@ func _on_AttackButton_pressed() -> void:
 	#updating the interface
 	$PromptLabel.text = "Hero Attacked For " + str(damage) + " Damage!"
 	#$Punch.play() --> maybe add this in when we get more attacks
+	
+	
 	emit_signal("hero_attack")
 	end_turn("Hero")
 
