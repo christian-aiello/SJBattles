@@ -16,6 +16,8 @@ signal enemy_setup #gets the enemy ready
 
 var enemy_identity: = 0 #may be changed later, but it determines which enemy it is
 
+var hero_animation #checks if the hero needs the idle animation
+
 var hero_level
 var hero_xp
 
@@ -38,11 +40,23 @@ const XP_PER_LEVEL: = 100
 
 var rng = RandomNumberGenerator.new() #randomizer
 
+#constanlty checking if we need the idle or attack animation
+func _process(delta: float) -> void:
+	#plays the default animation
+	if hero_animation == "default":
+		emit_signal("hero_default")
+		
+	#Plays the attack animation
+	elif hero_animation == "attack":
+		emit_signal("hero_attack")
+		
 
 func _ready() -> void:
 	$Hero/Player/AnimationPlayer.stop()
 	
-	emit_signal("hero_default")
+	$FightMusic1.play() #starts playing the music
+	
+	hero_animation = "default"
 	emit_signal("enemy_default")
 	emit_signal("sendEnemyVars", enemy_identity)
 	
@@ -85,7 +99,7 @@ func is_game_done():
 		$PromptLabel.text = "Hero Wins!"
 		$Enemy.hide()
 		show_moves(false)
-		
+		$FightMusic1.stop()
 		
 		"""
 		#dealing with the experience points
@@ -104,6 +118,7 @@ func is_game_done():
 		$PromptLabel.text = enemy_name + " Wins!"
 		$Hero.hide()
 		show_moves(false)
+		$FightMusic1.stop()
 		return true
 	
 	return false
@@ -163,7 +178,7 @@ func end_turn(person):
 			
 			
 	#puts back the default animations	
-	emit_signal("hero_default")
+	hero_animation = "default"
 	emit_signal("enemy_default")
 	
 	
@@ -178,8 +193,12 @@ func _on_AttackButton_pressed() -> void:
 	$PromptLabel.text = "Hero Attacked For " + str(damage) + " Damage!"
 	#$Punch.play() --> maybe add this in when we get more attacks
 	
+	#plays one iteration of the attack animation
+	hero_animation = "attack"
+	$AttackAnimationDelay.start()
+	yield($AttackAnimationDelay, "timeout")
+	hero_animation = "default"
 	
-	emit_signal("hero_attack")
 	end_turn("Hero")
 
 

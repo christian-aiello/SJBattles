@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/BattleArena.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Hero.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Enemy.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/music/fight music 1.mp3" type="AudioStream" id=4]
 
 [node name="BattleArena" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -57,6 +58,12 @@ margin_top = 394.0
 margin_right = 94.0
 margin_bottom = 414.0
 text = "Attack"
+
+[node name="AttackAnimationDelay" type="Timer" parent="."]
+wait_time = 0.6
+
+[node name="FightMusic1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
 
 [connection signal="hero_attack" from="." to="Hero" method="_on_BattleArena_hero_attack"]
 [connection signal="hero_default" from="." to="Hero" method="_on_BattleArena_hero_default"]
