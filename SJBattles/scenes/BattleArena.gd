@@ -14,7 +14,7 @@ signal enemy_attack
 
 signal enemy_setup #gets the enemy ready
 
-var enemy_identity: = 0 #may be changed later, but it determines which enemy it is
+var enemy_identity: = 3 #may be changed later, but it determines which enemy it is
 
 var hero_animation #checks if the hero needs the idle animation
 
@@ -52,6 +52,8 @@ func _process(delta: float) -> void:
 		
 
 func _ready() -> void:
+	emit_signal("enemy_setup", enemy_identity)
+	
 	$Hero/Player/AnimationPlayer.stop()
 	
 	$FightMusic1.play() #starts playing the music
@@ -61,9 +63,9 @@ func _ready() -> void:
 	emit_signal("sendEnemyVars", enemy_identity)
 	
 	#setting the variables based on which enemy it is
-	enemy_max_health = int([30, 25][enemy_identity])
+	enemy_max_health = int([30, 25, 40, 30][enemy_identity])
 	enemy_health = enemy_max_health
-	enemy_name = str(["Steven", "Teacher"][enemy_identity])
+	enemy_name = str(["1", "2", "3", "4"][enemy_identity])
 	
 	
 	rng.randomize() #giving the randomizer randomness
