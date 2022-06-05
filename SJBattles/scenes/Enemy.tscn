@@ -11,6 +11,11 @@ flags = 4
 atlas = ExtResource( 5 )
 region = Rect2( 0, 128, 64, 64 )
 
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 0, 128, 64, 64 )
+
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
 atlas = ExtResource( 4 )
@@ -21,16 +26,16 @@ flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 0, 128, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=4]
-flags = 4
-atlas = ExtResource( 2 )
-region = Rect2( 0, 128, 64, 64 )
-
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
 "frames": [ SubResource( 1 ) ],
 "loop": true,
 "name": "gidaro",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 4 ) ],
+"loop": true,
+"name": "valeri",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 2 ) ],
@@ -41,11 +46,6 @@ animations = [ {
 "frames": [ SubResource( 3 ) ],
 "loop": true,
 "name": "digasbarro",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 4 ) ],
-"loop": true,
-"name": "valeri",
 "speed": 5.0
 } ]
 

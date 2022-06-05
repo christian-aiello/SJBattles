@@ -65,7 +65,7 @@ func _ready() -> void:
 	#setting the variables based on which enemy it is
 	enemy_max_health = int([30, 25, 40, 30][enemy_identity])
 	enemy_health = enemy_max_health
-	enemy_name = str(["1", "2", "3", "4"][enemy_identity])
+	enemy_name = str(["Ms. DiGasbarro", "Ms. Gidaro", "Ms. Mauti", "Ms. Valeri"][enemy_identity])
 	
 	
 	rng.randomize() #giving the randomizer randomness
