@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://assets/tilesets/x_button.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Door.gd" type="Script" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://entities/slime/slime.tscn" type="PackedScene" id=18]
 [ext_resource path="res://scenes/Health Bar.gd" type="Script" id=19]
 [ext_resource path="res://assets/tilesets/TX HP Bar.png" type="Texture" id=20]
+[ext_resource path="res://scenes/OverworldBoss.tscn" type="PackedScene" id=21]
 
 [sub_resource type="TileSet" id=1]
 0/name = "TX Tileset Grass.png 0"
@@ -1334,6 +1335,10 @@ z_index = 4
 [node name="Slime3" parent="." instance=ExtResource( 18 )]
 position = Vector2( -116, 18 )
 z_index = 4
+
+[node name="OverworldBoss" parent="." instance=ExtResource( 21 )]
+position = Vector2( 376, 154 )
+scale = Vector2( 2, 2 )
 
 [connection signal="button_prompt" from="Player" to="Action Prompt/Sprite" method="_on_player_button_prompt"]
 [connection signal="open_door" from="Player" to="Door" method="_on_player_open_door"]

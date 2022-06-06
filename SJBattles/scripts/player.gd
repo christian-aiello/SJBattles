@@ -138,6 +138,9 @@ func _physics_process(delta):
 		
 	var target = $RayCast2D.get_collider()
 	if target != null:
+		
+		
+		
 		if target.name == 'Door' and direction == Vector2(0, -1):
 			if door_action != true:
 				door_action = true
@@ -152,9 +155,20 @@ func _physics_process(delta):
 			if door_action != false:
 				door_action = false
 				emit_signal("button_prompt", self)
+				
+		
 	else:
 		door_action = false
 		emit_signal("button_prompt", self)
+		
+	
+	var battle_target = $RayCast2D.get_collider()
+	#print(battle_target)
+	if battle_target != null:
+		if battle_target.name == "OverworldBoss":
+			print("battle")
+			get_tree().change_scene("res://scenes/BattleArena.tscn")
+	#if target.name == 'OverworldBoss':
 		
 
 		
