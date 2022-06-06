@@ -14,7 +14,9 @@ signal enemy_attack
 
 signal enemy_setup #gets the enemy ready
 
-var enemy_identity: = 0 #may be changed later, but it determines which enemy it is
+var enemy_identity: = 3 #may be changed later, but it determines which enemy it is
+
+var hero_animation #checks if the hero needs the idle animation
 
 var hero_level
 var hero_xp
@@ -38,22 +40,38 @@ const XP_PER_LEVEL: = 100
 
 var rng = RandomNumberGenerator.new() #randomizer
 
+#constanlty checking if we need the idle or attack animation
+func _process(delta: float) -> void:
+	#plays the default animation
+	if hero_animation == "default":
+		emit_signal("hero_default")
+		
+	#Plays the attack animation
+	elif hero_animation == "attack":
+		emit_signal("hero_attack")
+		
 
 func _ready() -> void:
-	emit_signal("hero_default")
+	emit_signal("enemy_setup", enemy_identity)
+	
+	$Hero/Player/AnimationPlayer.stop()
+	
+	$FightMusic1.play() #starts playing the music
+	
+	hero_animation = "default"
+	emit_signal("enemy_default")
 	emit_signal("sendEnemyVars", enemy_identity)
 	
 	#setting the variables based on which enemy it is
-	enemy_max_health = int([30, 25][enemy_identity])
+	enemy_max_health = int([30, 25, 40, 30][enemy_identity])
 	enemy_health = enemy_max_health
-	enemy_name = str(["Steven", "Teacher"][enemy_identity])
+	enemy_name = str(["Ms. DiGasbarro", "Ms. Gidaro", "Ms. Mauti", "Ms. Valeri"][enemy_identity])
 	
 	
 	rng.randomize() #giving the randomizer randomness
 	update_health() #sets the healths
 	
-	emit_signal("hero_default")
-	emit_signal("enemy_default")
+	
 	
 	hero_turn()
 	
@@ -83,23 +101,26 @@ func is_game_done():
 		$PromptLabel.text = "Hero Wins!"
 		$Enemy.hide()
 		show_moves(false)
+		$FightMusic1.stop()
 		
-		
-		
+		"""
 		#dealing with the experience points
 		hero_xp += 150 #150 xp will be the reward for winning
 		hero_level += int(hero_xp / XP_PER_LEVEL) #100xp will be one level
 		hero_xp = hero_xp % XP_PER_LEVEL
 		update_health()
 		emit_signal("send_back_hero_stats", hero_level, hero_xp)
+		"""
 		
 		return true #making sure the script knows that the game is over
+		
 		
 	if hero_health <= 0:
 		#displaying ending info
 		$PromptLabel.text = enemy_name + " Wins!"
 		$Hero.hide()
 		show_moves(false)
+		$FightMusic1.stop()
 		return true
 	
 	return false
@@ -159,7 +180,7 @@ func end_turn(person):
 			
 			
 	#puts back the default animations	
-	emit_signal("hero_default")
+	hero_animation = "default"
 	emit_signal("enemy_default")
 	
 	
@@ -173,7 +194,13 @@ func _on_AttackButton_pressed() -> void:
 	#updating the interface
 	$PromptLabel.text = "Hero Attacked For " + str(damage) + " Damage!"
 	#$Punch.play() --> maybe add this in when we get more attacks
-	emit_signal("hero_attack")
+	
+	#plays one iteration of the attack animation
+	hero_animation = "attack"
+	$AttackAnimationDelay.start()
+	yield($AttackAnimationDelay, "timeout")
+	hero_animation = "default"
+	
 	end_turn("Hero")
 
 
