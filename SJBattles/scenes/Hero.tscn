@@ -252,5 +252,5 @@ texture = ExtResource( 1 )
 offset = Vector2( 114, -212 )
 flip_h = true
 hframes = 7
-vframes = 7
+vframes = 11
 frame = 1
