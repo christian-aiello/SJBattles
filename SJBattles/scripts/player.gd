@@ -16,14 +16,17 @@ var direction = Vector2(1, 0)
 var action = false
 var door_action = false
 
+
 onready var AnimationPlayer = $AnimationPlayer
 
-var health = 10
-var health_max = 10
-var health_regeneration = 0.1
+var health = 100
+var health_max = 100
+var health_regeneration = 1
 var mana = 100
 var mana_max = 100
 var mana_regeneration = 10
+
+var attack_damage = 20
 
 func _process(delta):
 	var new_mana = min(mana + mana_regeneration * delta, mana_max)
@@ -40,12 +43,36 @@ func _ready():
 	emit_signal("button_prompt", self)
 	emit_signal("player_stats_changed", self)
 	
+func hit(damage):
+	health -= damage
+	emit_signal("player_stats_changed", self)
+	if health <= 0:
+		print('DEAD')
+		get_tree().quit()
+	else:
+		pass
+		
 func _input(event):
 	if event.is_action_pressed("textbook"):
 		if mana >= 25:
 			mana = mana - 25
 			action = true
-			AnimationPlayer.play("right_attack")
+			
+			var target = $RayCast2D.get_collider()
+			if target != null:
+				if target.name.find("Slime") >= 0:
+					target.hit(attack_damage)
+				
+				
+			if direction.x > 0:
+				AnimationPlayer.play('right_attack')
+			elif direction.x < 0:
+				AnimationPlayer.play('left_attack')
+			else:
+				if direction.y > 0:
+					AnimationPlayer.play('down_attack')
+				elif direction.y < 0:
+					AnimationPlayer.play('up_attack')
 			yield(get_tree().create_timer(0.6), 'timeout')
 			action = false
 		
@@ -54,7 +81,6 @@ func _physics_process(delta):
 	input_vector.x = Input.get_action_strength('right') - Input.get_action_strength('left')
 	input_vector.y = Input.get_action_strength('down') - Input.get_action_strength('up')
 	input_vector = input_vector.normalized()
-	
 	
 	if input_vector != Vector2.ZERO:
 		velocity += input_vector * ACCELERATION * delta

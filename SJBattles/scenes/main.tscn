@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://assets/tilesets/x_button.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Door.gd" type="Script" id=2]
@@ -13,10 +13,13 @@
 [ext_resource path="res://assets/tilesets/TX Plant.png" type="Texture" id=11]
 [ext_resource path="res://assets/tilesets/SPRITESHEET Male Walkcycle.png" type="Texture" id=12]
 [ext_resource path="res://assets/tilesets/TX Tileset Hallway Tiles.png" type="Texture" id=13]
-[ext_resource path="res://assets/tilesets/TX 10 HP.png" type="Texture" id=14]
+[ext_resource path="res://assets/tilesets/TX HP Border.png" type="Texture" id=14]
 [ext_resource path="res://assets/tilesets/TX Mana Border .png" type="Texture" id=15]
 [ext_resource path="res://assets/tilesets/TX Mana Bar.png" type="Texture" id=16]
 [ext_resource path="res://scenes/Mana Bar.gd" type="Script" id=17]
+[ext_resource path="res://entities/slime/slime.tscn" type="PackedScene" id=18]
+[ext_resource path="res://scenes/Health Bar.gd" type="Script" id=19]
+[ext_resource path="res://assets/tilesets/TX HP Bar.png" type="Texture" id=20]
 
 [sub_resource type="TileSet" id=1]
 0/name = "TX Tileset Grass.png 0"
@@ -830,9 +833,8 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 } ]
 11/z_index = 0
 
-[sub_resource type="CapsuleShape2D" id=45]
-radius = 11.0
-height = 0.0
+[sub_resource type="RectangleShape2D" id=55]
+extents = Vector2( 11, 10.5 )
 
 [sub_resource type="Animation" id=8]
 length = 0.001
@@ -875,6 +877,23 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 22, 23, 24, 25, 26, 27 ]
+}
+
+[sub_resource type="Animation" id=52]
+resource_name = "down_attack"
+length = 0.6
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 62, 63, 64, 65, 66, 67, 68, 69, 70 ]
 }
 
 [sub_resource type="Animation" id=50]
@@ -989,6 +1008,23 @@ tracks/0/keys = {
 "values": [ 1, 2, 3, 4, 5, 6 ]
 }
 
+[sub_resource type="Animation" id=53]
+resource_name = "left_attack"
+length = 0.6
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 44, 45, 46, 47, 48, 49, 50, 51, 52 ]
+}
+
 [sub_resource type="Animation" id=12]
 resource_name = "right"
 length = 0.6
@@ -1036,6 +1072,23 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 8, 9, 10, 11, 12, 13 ]
+}
+
+[sub_resource type="Animation" id=54]
+resource_name = "up_attack"
+length = 0.6
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 53, 54, 55, 56, 57, 58, 59, 60, 61 ]
 }
 
 [sub_resource type="RectangleShape2D" id=38]
@@ -1106,7 +1159,8 @@ tracks/0/keys = {
 "values": [ 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7 ]
 }
 
-[node name="Node2D" type="Node2D"]
+[node name="Root" type="Node2D"]
+z_index = 5
 
 [node name="Mana Bar" type="CanvasLayer" parent="."]
 script = ExtResource( 17 )
@@ -1116,17 +1170,25 @@ position = Vector2( 86, 52 )
 texture = ExtResource( 15 )
 
 [node name="Bar" type="Sprite" parent="Mana Bar"]
-position = Vector2( 85, 52 )
+position = Vector2( 97.5, 52 )
 scale = Vector2( 1, 1.02684 )
 texture = ExtResource( 16 )
 region_enabled = true
-region_rect = Rect2( 29, 8, 100, 16 )
+region_rect = Rect2( 29, 8, 125, 16 )
 
 [node name="Health Bar" type="CanvasLayer" parent="."]
+script = ExtResource( 19 )
 
-[node name="Sprite" type="Sprite" parent="Health Bar"]
-position = Vector2( 86, 20 )
+[node name="Border" type="Sprite" parent="Health Bar"]
+position = Vector2( 86, 21 )
 texture = ExtResource( 14 )
+
+[node name="Bar" type="Sprite" parent="Health Bar"]
+position = Vector2( 97.5, 21 )
+scale = Vector2( 1, 1.02684 )
+texture = ExtResource( 20 )
+region_enabled = true
+region_rect = Rect2( 29, 8, 125, 16 )
 
 [node name="Action Prompt" type="CanvasLayer" parent="."]
 layer = 0
@@ -1192,13 +1254,13 @@ texture = ExtResource( 12 )
 offset = Vector2( 114, -212 )
 flip_h = true
 hframes = 7
-vframes = 7
+vframes = 11
 frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2( 0, 8 )
+position = Vector2( 1, 7.5 )
 z_index = 4
-shape = SubResource( 45 )
+shape = SubResource( 55 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
@@ -1207,6 +1269,7 @@ zoom = Vector2( 0.5, 0.5 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
 anims/RESET = SubResource( 8 )
 anims/down = SubResource( 9 )
+anims/down_attack = SubResource( 52 )
 anims/enter = SubResource( 50 )
 anims/enter_door = SubResource( 41 )
 anims/idle_down = SubResource( 48 )
@@ -1214,9 +1277,11 @@ anims/idle_left = SubResource( 47 )
 anims/idle_right = SubResource( 46 )
 anims/idle_up = SubResource( 49 )
 anims/left = SubResource( 11 )
+anims/left_attack = SubResource( 53 )
 anims/right = SubResource( 12 )
 anims/right_attack = SubResource( 51 )
 anims/up = SubResource( 10 )
+anims/up_attack = SubResource( 54 )
 
 [node name="RayCast2D" type="RayCast2D" parent="Player"]
 z_index = 4
@@ -1258,7 +1323,20 @@ shape = SubResource( 44 )
 anims/RESET = SubResource( 42 )
 anims/open = SubResource( 43 )
 
+[node name="Slime" parent="." instance=ExtResource( 18 )]
+position = Vector2( -162, -99 )
+z_index = 4
+
+[node name="Slime2" parent="." instance=ExtResource( 18 )]
+position = Vector2( -159, -16 )
+z_index = 4
+
+[node name="Slime3" parent="." instance=ExtResource( 18 )]
+position = Vector2( -116, 18 )
+z_index = 4
+
 [connection signal="button_prompt" from="Player" to="Action Prompt/Sprite" method="_on_player_button_prompt"]
 [connection signal="open_door" from="Player" to="Door" method="_on_player_open_door"]
 [connection signal="open_door_two" from="Player" to="Door2" method="_on_player_open_door_two"]
 [connection signal="player_stats_changed" from="Player" to="Mana Bar" method="_on_Player_player_stats_changed"]
+[connection signal="player_stats_changed" from="Player" to="Health Bar" method="_on_Player_player_stats_changed"]
