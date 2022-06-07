@@ -14,7 +14,7 @@ signal enemy_attack
 
 signal enemy_setup #gets the enemy ready
 
-var enemy_identity: = 3 #may be changed later, but it determines which enemy it is
+var enemy_identity: = 0 # determines which enemy it is
 
 var hero_animation #checks if the hero needs the idle animation
 
@@ -40,6 +40,14 @@ const XP_PER_LEVEL: = 100
 
 var rng = RandomNumberGenerator.new() #randomizer
 
+
+func _on_Enemy_send_enemy_identity(enem_num) -> void:
+	enemy_identity = enem_num
+	
+	
+	
+	
+
 #constanlty checking if we need the idle or attack animation
 func _process(delta: float) -> void:
 	#plays the default animation
@@ -54,6 +62,7 @@ func _process(delta: float) -> void:
 func _ready() -> void:
 	emit_signal("enemy_setup", enemy_identity)
 	
+	
 	$Hero/Player/AnimationPlayer.stop()
 	
 	$FightMusic1.play() #starts playing the music
@@ -67,13 +76,11 @@ func _ready() -> void:
 	enemy_health = enemy_max_health
 	enemy_name = str(["Ms. DiGasbarro", "Ms. Gidaro", "Ms. Mauti", "Ms. Valeri"][enemy_identity])
 	
-	
 	rng.randomize() #giving the randomizer randomness
 	update_health() #sets the healths
 	
-	
-	
 	hero_turn()
+	
 	
 
 #function to show/hide the moves for the hero
@@ -232,3 +239,6 @@ func _on_ItemButton_pressed() -> void:
 func _on_hero_send_stats(hero_level_stored, hero_xp_stored) -> void:
 	hero_level = hero_level_stored
 	hero_xp = hero_xp_stored
+
+
+

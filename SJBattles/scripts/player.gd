@@ -5,6 +5,7 @@ signal open_door
 signal open_door_two
 signal enter_door
 signal player_stats_changed
+signal battle_begin
 
 const ACCELERATION = 10
 const MAX_SPEED = 100
@@ -163,12 +164,11 @@ func _physics_process(delta):
 		
 	
 	var battle_target = $RayCast2D.get_collider()
-	#print(battle_target)
 	if battle_target != null:
 		if battle_target.name == "OverworldBoss":
-			print("battle")
+			emit_signal("battle_begun", 0)
 			get_tree().change_scene("res://scenes/BattleArena.tscn")
-	#if target.name == 'OverworldBoss':
+
 		
 
 		
