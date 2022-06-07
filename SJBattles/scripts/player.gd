@@ -166,7 +166,7 @@ func _physics_process(delta):
 	var battle_target = $RayCast2D.get_collider()
 	if battle_target != null:
 		if battle_target.name == "OverworldBoss":
-			emit_signal("battle_begun", 0)
+			PlayerVariables.enemy_encountered = 0
 			get_tree().change_scene("res://scenes/BattleArena.tscn")
 
 		

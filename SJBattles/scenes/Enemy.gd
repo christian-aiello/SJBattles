@@ -10,10 +10,6 @@ extends Area2D
 func _ready() -> void:
 	pass # Replace with function body.
 
-signal send_enemy_identity
-#enemy_identity is going from player --> enemy --> battle_arena --> enemy
-func _on_Player_battle_begin(enemy_identity) -> void:
-	emit_signal("send_enemy_identity", enemy_identity)
 
 func _on_BattleArena_enemy_setup(enemy_identity) -> void:
 	var animations: = ["digasbarro", "gidaro", "mauti", "valeri"]

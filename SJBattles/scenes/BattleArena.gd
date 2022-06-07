@@ -14,7 +14,7 @@ signal enemy_attack
 
 signal enemy_setup #gets the enemy ready
 
-var enemy_identity: = 0 # determines which enemy it is
+var enemy_identity # determines which enemy it is
 
 var hero_animation #checks if the hero needs the idle animation
 
@@ -41,9 +41,6 @@ const XP_PER_LEVEL: = 100
 var rng = RandomNumberGenerator.new() #randomizer
 
 
-func _on_Enemy_send_enemy_identity(enem_num) -> void:
-	enemy_identity = enem_num
-	
 	
 	
 	
@@ -60,6 +57,7 @@ func _process(delta: float) -> void:
 		
 
 func _ready() -> void:
+	enemy_identity = PlayerVariables.enemy_encountered
 	emit_signal("enemy_setup", enemy_identity)
 	
 	
@@ -193,6 +191,8 @@ func end_turn(person):
 	
 #function for pikachu attacking
 func _on_AttackButton_pressed() -> void:
+	$AttackButton.hide()
+	$ItemButton.hide()
 	#enemy takes damage
 	damage = HERO_DAMAGE_BASE + rng.randi_range(-2, 2)
 	enemy_health -= damage
