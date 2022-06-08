@@ -18,11 +18,8 @@ var enemy_identity # determines which enemy it is
 
 var hero_animation #checks if the hero needs the idle animation
 
-var hero_level
-var hero_xp
-
-const HERO_MAX_HEALTH: = 30 #this may be coming from a signal later
-var hero_health: = HERO_MAX_HEALTH
+var hero_max_health: = 2*PlayerVariables.player_level + 30
+var hero_health: = hero_max_health
 
 var enemy_health
 var enemy_name
@@ -30,7 +27,7 @@ var enemy_max_health
 
 #these two variables may be coming from a signal later
 const HERO_DAMAGE_BASE: = 5
-const ENEMY_DAMAGE_BASE: = 5
+var enemy_damage_base
 
 var damage
 var potions_remaining: = 3 #may be coming from a signal later
@@ -70,9 +67,10 @@ func _ready() -> void:
 	emit_signal("sendEnemyVars", enemy_identity)
 	
 	#setting the variables based on which enemy it is
-	enemy_max_health = int([30, 25, 40, 30][enemy_identity])
+	enemy_max_health = int([20,25,30,40][enemy_identity])
 	enemy_health = enemy_max_health
 	enemy_name = str(["Ms. DiGasbarro", "Ms. Gidaro", "Ms. Mauti", "Ms. Valeri"][enemy_identity])
+	enemy_damage_base = int([4,5,6,7][enemy_identity])
 	
 	rng.randomize() #giving the randomizer randomness
 	update_health() #sets the healths
@@ -93,8 +91,8 @@ func show_moves(should_show):
 
 #updates the health bars and xp bar of the players
 func update_health():
-	$HeroHealthLabel.text = str(hero_health) + "/" +str(HERO_MAX_HEALTH)
-	$XpLabel.text = "level: " + str(hero_level) + "   xp: " + str(hero_xp)
+	$HeroHealthLabel.text = str(hero_health) + "/" +str(hero_max_health)
+	$XpLabel.text = "level: " + str(PlayerVariables.player_level) + "   xp: " + str(PlayerVariables.player_xp)
 	$EnemyHealthLabel.text = str(enemy_health) + "/" + str(enemy_max_health)
 	
 
@@ -108,14 +106,14 @@ func is_game_done():
 		show_moves(false)
 		$FightMusic1.stop()
 		
-		"""
+		
 		#dealing with the experience points
-		hero_xp += 150 #150 xp will be the reward for winning
-		hero_level += int(hero_xp / XP_PER_LEVEL) #100xp will be one level
-		hero_xp = hero_xp % XP_PER_LEVEL
+		PlayerVariables.player_xp += 150 #150 xp will be the reward for winning
+		PlayerVariables.player_level += int(PlayerVariables.player_xp / XP_PER_LEVEL) #100xp will be one level
+		PlayerVariables.player_xp = PlayerVariables.player_xp % XP_PER_LEVEL
 		update_health()
-		emit_signal("send_back_hero_stats", hero_level, hero_xp)
-		"""
+		#emit_signal("send_back_hero_stats", hero_level, hero_xp)
+		
 		
 		return true #making sure the script knows that the game is over
 		
@@ -135,7 +133,7 @@ func is_game_done():
 #function for starting enemy's turn
 func enemy_turn():
 	#pikachu takes damage
-	damage = ENEMY_DAMAGE_BASE + rng.randi_range(-2, 2)
+	damage = enemy_damage_base + rng.randi_range(-2, 2)
 	hero_health -= damage
 	hero_health = max(hero_health, 0) #making sure it doesnt show a health below 0
 	
@@ -218,8 +216,8 @@ func _on_ItemButton_pressed() -> void:
 		hero_health += POTION_VALUE
 		
 		#making sure we dont go over the max health with a potion
-		if hero_health > HERO_MAX_HEALTH:
-			hero_health = HERO_MAX_HEALTH
+		if hero_health > hero_max_health:
+			hero_health = hero_max_health
 		
 		$PromptLabel.text = "Hero Used A Potion!"
 		#$Heal.play() #lesson learned: .wav files play once, .mp3 files play indefinitely --> ADD BACK IN THE SOUNDS
@@ -235,10 +233,11 @@ func _on_ItemButton_pressed() -> void:
 		
 		hero_turn()
 
+"""
 #takes the variables from pikachu and gives them to the main script
 func _on_hero_send_stats(hero_level_stored, hero_xp_stored) -> void:
 	hero_level = hero_level_stored
 	hero_xp = hero_xp_stored
-
+"""
 
 
