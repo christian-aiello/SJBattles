@@ -43,11 +43,14 @@ func _process(delta):
 func _ready():
 	emit_signal("button_prompt", self)
 	emit_signal("player_stats_changed", self)
+	self.position.x = PlayerVariables.position_x
+	self.position.y = PlayerVariables.position_y
 	
 func hit(damage):
 	health -= damage
 	emit_signal("player_stats_changed", self)
 	if health <= 0:
+		print('DEAD')
 		print('DEAD')
 		get_tree().quit()
 	else:
@@ -120,14 +123,21 @@ func _physics_process(delta):
 			yield(get_tree().create_timer(1.2), "timeout")
 			AnimationPlayer.play("enter")
 			yield(get_tree().create_timer(2), "timeout")
-			get_tree().change_scene("res://scenes/hallway.tscn")
-			get_tree().change_scene("res://scenes/hallway.tscn")
+			PlayerVariables.position_x = 0
+			PlayerVariables.position_y = 0
+			get_tree().change_scene("res://scenes/floor1.tscn")
 		elif PlayerVariables.door_entered == 'Door2':
 			emit_signal("open_door_two", self)
 			yield(get_tree().create_timer(1.2), "timeout")
 			AnimationPlayer.play("enter")
+			PlayerVariables.position_x = 0
+			PlayerVariables.position_y = 0
 			yield(get_tree().create_timer(1.2), "timeout")
-			get_tree().change_scene("res://scenes/hallway.tscn")
+			get_tree().change_scene("res://scenes/floor1.tscn")
+		elif PlayerVariables.door_entered == 'lu1':
+			PlayerVariables.position_x = -1632
+			PlayerVariables.position_y = -48
+			get_tree().change_scene("res://scenes/floor1.tscn")
 		
 	if not action:
 		move_and_collide(velocity * delta * MAX_SPEED)
@@ -153,14 +163,15 @@ func _physics_process(delta):
 				PlayerVariables.door_entered = 'Door2'
 				emit_signal("button_prompt", self)
 		else:
-			if door_action != false:
+			if door_action != false and get_tree().get_current_scene().get_name() == 'main':
 				door_action = false
 				emit_signal("button_prompt", self)
 				
 		
 	else:
-		door_action = false
-		emit_signal("button_prompt", self)
+		if door_action != false and get_tree().get_current_scene().get_name() == 'main':
+			door_action = false
+			emit_signal("button_prompt", self)
 		
 	
 	var battle_target = $RayCast2D.get_collider()
@@ -169,9 +180,21 @@ func _physics_process(delta):
 			PlayerVariables.enemy_encountered = 0
 			get_tree().change_scene("res://scenes/BattleArena.tscn")
 
-		
+func _on_Door_body_entered(body):
+	if body.name == 'Player':
+		PlayerVariables.position_x = -32
+		PlayerVariables.position_y = -448
+		get_tree().change_scene("res://scenes/main.tscn")
 
-		
-	
+func _on_lu1_body_entered(body):
+	if body.name == 'Player':		
+		door_action = true
+		PlayerVariables.door_entered = 'lu1'
+		emit_signal("button_prompt", self)
 
+func _on_lu1_body_exited(body):
+	if body.name == 'Player':
+		door_action = false
+		PlayerVariables.door_entered = null
+		emit_signal("button_prompt", self)
 

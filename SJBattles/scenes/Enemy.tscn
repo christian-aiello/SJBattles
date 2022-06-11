@@ -7,22 +7,18 @@
 [ext_resource path="res://assets/teachers/gidaro_char.png" type="Texture" id=5]
 
 [sub_resource type="AtlasTexture" id=1]
-flags = 4
 atlas = ExtResource( 5 )
 region = Rect2( 0, 128, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=4]
-flags = 4
 atlas = ExtResource( 2 )
 region = Rect2( 0, 128, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=2]
-flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 0, 128, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=3]
-flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 0, 128, 64, 64 )
 

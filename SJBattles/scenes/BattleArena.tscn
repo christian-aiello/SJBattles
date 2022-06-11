@@ -16,7 +16,7 @@ texture = ExtResource( 5 )
 
 [node name="Hero" parent="." instance=ExtResource( 2 )]
 position = Vector2( 255, 315 )
-scale = Vector2( 3.12952, 3.90132 )
+scale = Vector2( 3, 3 )
 
 [node name="Enemy" parent="." instance=ExtResource( 3 )]
 position = Vector2( 750, 320 )
@@ -81,6 +81,5 @@ stream = ExtResource( 4 )
 [connection signal="enemy_setup" from="." to="Enemy" method="_on_BattleArena_enemy_setup"]
 [connection signal="hero_attack" from="." to="Hero" method="_on_BattleArena_hero_attack"]
 [connection signal="hero_default" from="." to="Hero" method="_on_BattleArena_hero_default"]
-[connection signal="send_enemy_identity" from="Enemy" to="." method="_on_Enemy_send_enemy_identity"]
 [connection signal="pressed" from="ItemButton" to="." method="_on_ItemButton_pressed"]
 [connection signal="pressed" from="AttackButton" to="." method="_on_AttackButton_pressed"]
