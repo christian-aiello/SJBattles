@@ -114,6 +114,11 @@ func is_game_done():
 		update_health()
 		#emit_signal("send_back_hero_stats", hero_level, hero_xp)
 		
+		#determining where to place the user when the battle is done
+		if enemy_identity == 0:
+			PlayerVariables.position_x = -64
+			PlayerVariables.position_y = -811
+			get_tree().change_scene("res://scenes/floor1.tscn")
 		
 		return true #making sure the script knows that the game is over
 		
