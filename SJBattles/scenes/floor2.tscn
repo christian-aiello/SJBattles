@@ -1626,9 +1626,9 @@ texture = ExtResource( 15 )
 offset = Vector2( -77, -38 )
 hframes = 2
 
-[node name="lu3" type="Area2D" parent="Left Hallway Up"]
+[node name="lu2" type="Area2D" parent="Left Hallway Up"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Left Hallway Up/lu3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left Hallway Up/lu2"]
 position = Vector2( -1519.83, 400.25 )
 shape = SubResource( 60 )
 
@@ -1643,9 +1643,9 @@ texture = ExtResource( 15 )
 offset = Vector2( -77, -38 )
 hframes = 2
 
-[node name="ru3" type="Area2D" parent="Right Hallway Up"]
+[node name="ru2" type="Area2D" parent="Right Hallway Up"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Right Hallway Up/ru3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Right Hallway Up/ru2"]
 position = Vector2( 1712, 400 )
 shape = SubResource( 60 )
 
@@ -1661,9 +1661,9 @@ offset = Vector2( -77, -38 )
 hframes = 2
 frame = 1
 
-[node name="rd3" type="Area2D" parent="Right Hallway Down"]
+[node name="rd2" type="Area2D" parent="Right Hallway Down"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Right Hallway Down/rd3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Right Hallway Down/rd2"]
 position = Vector2( 1712, 400 )
 shape = SubResource( 60 )
 
@@ -1679,9 +1679,27 @@ offset = Vector2( -77, -38 )
 hframes = 2
 frame = 1
 
-[node name="ld3" type="Area2D" parent="Left Hallway Down"]
+[node name="ld2" type="Area2D" parent="Left Hallway Down"]
 position = Vector2( -19, 25 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Left Hallway Down/ld3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left Hallway Down/ld2"]
 position = Vector2( 19, -25 )
 shape = SubResource( 61 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = -68.0
+margin_top = 13.0
+margin_right = -60.0
+margin_bottom = 27.0
+custom_colors/font_color = Color( 0.980392, 0.0509804, 0.0509804, 1 )
+text = "2
+"
+
+[connection signal="body_entered" from="Left Hallway Up/lu2" to="Player" method="_on_lu2_body_entered"]
+[connection signal="body_exited" from="Left Hallway Up/lu2" to="Player" method="_on_lu2_body_exited"]
+[connection signal="body_entered" from="Right Hallway Up/ru2" to="Player" method="_on_ru2_body_entered"]
+[connection signal="body_exited" from="Right Hallway Up/ru2" to="Player" method="_on_ru2_body_exited"]
+[connection signal="body_entered" from="Right Hallway Down/rd2" to="Player" method="_on_rd2_body_entered"]
+[connection signal="body_exited" from="Right Hallway Down/rd2" to="Player" method="_on_rd2_body_exited"]
+[connection signal="body_entered" from="Left Hallway Down/ld2" to="Player" method="_on_ld2_body_entered"]
+[connection signal="body_exited" from="Left Hallway Down/ld2" to="Player" method="_on_ld2_body_exited"]

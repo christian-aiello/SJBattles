@@ -1546,9 +1546,9 @@ texture = ExtResource( 15 )
 offset = Vector2( -77, -38 )
 hframes = 2
 
-[node name="Area2D" type="Area2D" parent="Left Hallway Up"]
+[node name="lu3" type="Area2D" parent="Left Hallway Up"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Left Hallway Up/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left Hallway Up/lu3"]
 position = Vector2( -1519.83, 400.25 )
 shape = SubResource( 60 )
 
@@ -1563,10 +1563,10 @@ texture = ExtResource( 15 )
 offset = Vector2( -77, -38 )
 hframes = 2
 
-[node name="Area2D" type="Area2D" parent="Right Hallway Up"]
+[node name="ru3" type="Area2D" parent="Right Hallway Up"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Right Hallway Up/Area2D"]
-position = Vector2( -1519.83, 400.25 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Right Hallway Up/ru3"]
+position = Vector2( 1712, 400 )
 shape = SubResource( 60 )
 
 [node name="Right Hallway Down" type="KinematicBody2D" parent="."]
@@ -1581,10 +1581,10 @@ offset = Vector2( -77, -38 )
 hframes = 2
 frame = 1
 
-[node name="Area2D" type="Area2D" parent="Right Hallway Down"]
+[node name="rd3" type="Area2D" parent="Right Hallway Down"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Right Hallway Down/Area2D"]
-position = Vector2( -1519.83, 400.25 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Right Hallway Down/rd3"]
+position = Vector2( 1712, 400 )
 shape = SubResource( 60 )
 
 [node name="Left Hallway Down" type="KinematicBody2D" parent="."]
@@ -1593,16 +1593,16 @@ z_index = 1
 script = ExtResource( 14 )
 
 [node name="Sprite" type="Sprite" parent="Left Hallway Down"]
-position = Vector2( 77, 38 )
+position = Vector2( 76, 38 )
 texture = ExtResource( 15 )
 offset = Vector2( -77, -38 )
 hframes = 2
 frame = 1
 
-[node name="Area2D" type="Area2D" parent="Left Hallway Down"]
-position = Vector2( -19, 25 )
+[node name="ld3" type="Area2D" parent="Left Hallway Down"]
+position = Vector2( -20, 25 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Left Hallway Down/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left Hallway Down/ld3"]
 position = Vector2( 19, -25 )
 shape = SubResource( 61 )
 
@@ -1613,4 +1613,20 @@ position = Vector2( 0, 26 )
 z_index = 1
 shape = SubResource( 66 )
 
+[node name="Label" type="Label" parent="."]
+margin_left = -68.0
+margin_top = 13.0
+margin_right = -60.0
+margin_bottom = 27.0
+custom_colors/font_color = Color( 0.980392, 0.0509804, 0.0509804, 1 )
+text = "3"
+
+[connection signal="body_entered" from="Left Hallway Up/lu3" to="Player" method="_on_lu3_body_entered"]
+[connection signal="body_exited" from="Left Hallway Up/lu3" to="Player" method="_on_lu3_body_exited"]
+[connection signal="body_entered" from="Right Hallway Up/ru3" to="Player" method="_on_ru3_body_entered"]
+[connection signal="body_exited" from="Right Hallway Up/ru3" to="Player" method="_on_ru3_body_exited"]
+[connection signal="body_entered" from="Right Hallway Down/rd3" to="Player" method="_on_rd3_body_entered"]
+[connection signal="body_exited" from="Right Hallway Down/rd3" to="Player" method="_on_rd3_body_exited"]
+[connection signal="body_entered" from="Left Hallway Down/ld3" to="Player" method="_on_ld3_body_entered"]
+[connection signal="body_exited" from="Left Hallway Down/ld3" to="Player" method="_on_ld3_body_exited"]
 [connection signal="body_entered" from="Area2D" to="Player" method="_on_Area2D_body_entered"]

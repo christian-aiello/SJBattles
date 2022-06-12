@@ -1595,17 +1595,17 @@ position = Vector2( -1615, -48 )
 z_index = 1
 script = ExtResource( 14 )
 
-[node name="ld1" type="Sprite" parent="Left Hallway Down"]
+[node name="Sprite" type="Sprite" parent="Left Hallway Down"]
 position = Vector2( 77, 38 )
 texture = ExtResource( 15 )
 offset = Vector2( -77, -38 )
 hframes = 2
 frame = 1
 
-[node name="Area2D" type="Area2D" parent="Left Hallway Down"]
+[node name="ld1" type="Area2D" parent="Left Hallway Down"]
 position = Vector2( -19, 25 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Left Hallway Down/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left Hallway Down/ld1"]
 position = Vector2( 19, -25 )
 shape = SubResource( 61 )
 
@@ -1631,10 +1631,22 @@ position = Vector2( -125, -823 )
 scale = Vector2( 2, 2 )
 z_index = 4
 
+[node name="Label" type="Label" parent="."]
+margin_left = -68.0
+margin_top = 13.0
+margin_right = -60.0
+margin_bottom = 27.0
+custom_colors/font_color = Color( 0.980392, 0.0509804, 0.0509804, 1 )
+text = "1"
+
 [connection signal="button_prompt" from="Player" to="Action Prompt/Sprite" method="_on_Player_button_prompt"]
 [connection signal="body_entered" from="Left Hallway Up/lu1" to="Player" method="_on_lu1_body_entered"]
-[connection signal="body_entered" from="Left Hallway Up/lu1" to="Player" method="_on_lu_area_body_entered"]
-[connection signal="body_entered" from="Left Hallway Up/lu1" to="Player" method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Left Hallway Up/lu1" to="Player" method="_on_lu1_body_exited"]
+[connection signal="body_entered" from="Right Hallway Up/ru1" to="Player" method="_on_ru1_body_entered"]
+[connection signal="body_exited" from="Right Hallway Up/ru1" to="Player" method="_on_ru1_body_exited"]
+[connection signal="body_entered" from="Right Hallway Down/rd1" to="Player" method="_on_rd1_body_entered"]
+[connection signal="body_exited" from="Right Hallway Down/rd1" to="Player" method="_on_rd1_body_exited"]
+[connection signal="body_entered" from="Left Hallway Down/ld1" to="Player" method="_on_ld1_body_entered"]
+[connection signal="body_exited" from="Left Hallway Down/ld1" to="Player" method="_on_ld1_body_exited"]
 [connection signal="body_entered" from="Door" to="Player" method="_on_Door_body_entered"]
 [connection signal="body_entered" from="Door" to="Player" method="_on_Area2D_body_entered"]

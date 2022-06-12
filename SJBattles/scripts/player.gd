@@ -3,13 +3,14 @@ extends KinematicBody2D
 signal button_prompt
 signal open_door
 signal open_door_two
+signal open_french_door
 signal enter_door
 signal player_stats_changed
 signal battle_begin
 
 const ACCELERATION = 10
 const MAX_SPEED = 100
-const FRICTION = 10
+const FRICTION = 5
 
 var velocity = Vector2.ZERO
 var direction = Vector2(1, 0)
@@ -20,29 +21,32 @@ var door_action = false
 
 onready var AnimationPlayer = $AnimationPlayer
 
-var health = 100
+var health = PlayerVariables.health
 var health_max = 100
 var health_regeneration = 1
-var mana = 100
+var mana = PlayerVariables.mana
 var mana_max = 100
 var mana_regeneration = 10
 
 var attack_damage = 20
 
 func _process(delta):
-	var new_mana = min(mana + mana_regeneration * delta, mana_max)
-	if new_mana != mana:
-		mana = new_mana
-		emit_signal("player_stats_changed", self)
+	
+	if not action:
+		var new_mana = min(mana + mana_regeneration * delta, mana_max)
+		if new_mana != mana:
+			mana = new_mana
+			emit_signal("player_stats_changed", self)
 
-	var new_health = min(health + health_regeneration * delta, health_max)
-	if new_health != health:
-		health = new_health
-		emit_signal("player_stats_changed", self)
+		var new_health = min(health + health_regeneration * delta, health_max)
+		if new_health != health:
+			health = new_health
+			emit_signal("player_stats_changed", self)
 		
 func _ready():
 	emit_signal("button_prompt", self)
 	emit_signal("player_stats_changed", self)
+	self.direction = PlayerVariables.direction
 	self.position.x = PlayerVariables.position_x
 	self.position.y = PlayerVariables.position_y
 	
@@ -118,6 +122,9 @@ func _physics_process(delta):
 		
 	if Input.is_action_pressed('interact') and door_action:
 		action = true
+		PlayerVariables.direction = self.direction
+		PlayerVariables.health = self.health
+		PlayerVariables.mana = self.mana
 		if PlayerVariables.door_entered == 'Door':
 			emit_signal("open_door", self)
 			yield(get_tree().create_timer(1.2), "timeout")
@@ -134,10 +141,58 @@ func _physics_process(delta):
 			PlayerVariables.position_y = 0
 			yield(get_tree().create_timer(1.2), "timeout")
 			get_tree().change_scene("res://scenes/floor1.tscn")
+		elif PlayerVariables.door_entered == 'french_door':
+			emit_signal("open_french_door", self)
+			yield(get_tree().create_timer(1.2), "timeout")
+			AnimationPlayer.play("enter")
+			PlayerVariables.position_x = 0
+			PlayerVariables.position_y = 0
+			yield(get_tree().create_timer(1.2), "timeout")
+			get_tree().change_scene("res://scenes/french.tscn")
 		elif PlayerVariables.door_entered == 'lu1':
-			PlayerVariables.position_x = -1632
-			PlayerVariables.position_y = -48
+			PlayerVariables.position_x = -1616
+			PlayerVariables.position_y = -64
+			yield(get_tree().create_timer(0.6), 'timeout')
+			get_tree().change_scene("res://scenes/floor2.tscn")
+		elif PlayerVariables.door_entered == 'ru1':
+			PlayerVariables.position_x = 1616
+			PlayerVariables.position_y = -64
+			yield(get_tree().create_timer(0.6), 'timeout')
+			get_tree().change_scene("res://scenes/floor2.tscn")
+		elif PlayerVariables.door_entered == 'lu2':
+			PlayerVariables.position_x = -1616
+			PlayerVariables.position_y = -64
+			yield(get_tree().create_timer(0.6), 'timeout')
+			get_tree().change_scene("res://scenes/floor3.tscn")
+		elif PlayerVariables.door_entered == 'rd2':
+			PlayerVariables.position_x = 1616
+			PlayerVariables.position_y = -160
+			yield(get_tree().create_timer(0.6), 'timeout')
 			get_tree().change_scene("res://scenes/floor1.tscn")
+		elif PlayerVariables.door_entered == 'ld2':
+			PlayerVariables.position_x = -1616
+			PlayerVariables.position_y = -160
+			yield(get_tree().create_timer(0.6), 'timeout')
+			get_tree().change_scene("res://scenes/floor1.tscn")
+		elif PlayerVariables.door_entered == 'ru2':
+			PlayerVariables.position_x = 1616
+			PlayerVariables.position_y = -64
+			yield(get_tree().create_timer(0.6), 'timeout')
+			get_tree().change_scene("res://scenes/floor3.tscn")
+		elif PlayerVariables.door_entered == 'rd3':
+			PlayerVariables.position_x = 1616
+			PlayerVariables.position_y = -160
+			yield(get_tree().create_timer(0.6), 'timeout')
+			get_tree().change_scene("res://scenes/floor2.tscn")
+		elif PlayerVariables.door_entered == 'ld3':
+			PlayerVariables.position_x = -1616
+			PlayerVariables.position_y = -160
+			yield(get_tree().create_timer(0.6), 'timeout')
+			get_tree().change_scene("res://scenes/floor2.tscn")
+			
+		print(PlayerVariables.door_entered)
+		
+		
 		
 	if not action:
 		move_and_collide(velocity * delta * MAX_SPEED)
@@ -149,9 +204,6 @@ func _physics_process(delta):
 		
 	var target = $RayCast2D.get_collider()
 	if target != null:
-		
-		
-		
 		if target.name == 'Door' and direction == Vector2(0, -1):
 			if door_action != true:
 				door_action = true
@@ -161,6 +213,11 @@ func _physics_process(delta):
 			if door_action != true:
 				door_action = true
 				PlayerVariables.door_entered = 'Door2'
+				emit_signal("button_prompt", self)
+		elif target.name == 'french_door' and direction == Vector2(0, -1):
+			if door_action != true:
+				door_action = true
+				PlayerVariables.door_entered = 'french_door'
 				emit_signal("button_prompt", self)
 		else:
 			if door_action != false and get_tree().get_current_scene().get_name() == 'main':
@@ -197,4 +254,131 @@ func _on_lu1_body_exited(body):
 		door_action = false
 		PlayerVariables.door_entered = null
 		emit_signal("button_prompt", self)
+		
+func _on_ru1_body_entered(body):
+	if body.name == 'Player':
+		door_action = true
+		PlayerVariables.door_entered = 'ru1'
+		emit_signal("button_prompt", self)
 
+func _on_ru1_body_exited(body):
+	if body.name == 'Player':
+		door_action = false
+		PlayerVariables.door_entered = null
+		emit_signal("button_prompt", self)
+
+
+func _on_lu2_body_entered(body):
+	if body.name == 'Player':
+		door_action = true
+		PlayerVariables.door_entered = 'lu2'
+		emit_signal("button_prompt", self)
+
+
+func _on_lu2_body_exited(body):
+	if body.name == 'Player':
+		door_action = false
+		PlayerVariables.door_entered = null
+		emit_signal("button_prompt", self)
+
+
+func _on_ru2_body_entered(body):
+	if body.name == 'Player':		
+		door_action = true
+		PlayerVariables.door_entered = 'ru2'
+		emit_signal("button_prompt", self)
+
+
+func _on_ru2_body_exited(body):
+	if body.name == 'Player':
+		door_action = false
+		PlayerVariables.door_entered = null
+		emit_signal("button_prompt", self)
+
+
+func _on_rd2_body_entered(body):
+	if body.name == 'Player':		
+		door_action = true
+		PlayerVariables.door_entered = 'rd2'
+		emit_signal("button_prompt", self)
+
+
+func _on_rd2_body_exited(body):
+	if body.name == 'Player':
+		door_action = false
+		PlayerVariables.door_entered = null
+		emit_signal("button_prompt", self)
+
+
+func _on_ld2_body_entered(body):
+	if body.name == 'Player':		
+		door_action = true
+		PlayerVariables.door_entered = 'ld2'
+		emit_signal("button_prompt", self)
+
+
+func _on_ld2_body_exited(body):
+	if body.name == 'Player':
+		door_action = false
+		PlayerVariables.door_entered = null
+		emit_signal("button_prompt", self)
+
+
+func _on_rd3_body_entered(body):
+	if body.name == 'Player':		
+		door_action = true
+		PlayerVariables.door_entered = 'rd3'
+		emit_signal("button_prompt", self)
+
+
+func _on_ld3_body_entered(body):
+	if body.name == 'Player':		
+		door_action = true
+		PlayerVariables.door_entered = 'ld3'
+		emit_signal("button_prompt", self)
+
+
+func _on_ld3_body_exited(body):
+	if body.name == 'Player':
+		door_action = false
+		PlayerVariables.door_entered = null
+		emit_signal("button_prompt", self)
+
+func _on_rd3_body_exited(body):
+	if body.name == 'Player':
+		door_action = false
+		PlayerVariables.door_entered = null
+		emit_signal("button_prompt", self)
+
+
+func _on_rd1_body_entered(body: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_rd1_body_exited(body: Node) -> void:
+	pass # Replace with function body.
+
+
+
+func _on_ld1_body_entered(body: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_ld1_body_exited(body: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_lu3_body_entered(body: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_lu3_body_exited(body: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_ru3_body_entered(body: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_ru3_body_exited(body: Node) -> void:
+	pass # Replace with function body.
