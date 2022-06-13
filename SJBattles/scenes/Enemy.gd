@@ -7,7 +7,7 @@ func _ready() -> void:
 
 
 func _on_BattleArena_enemy_setup(enemy_identity) -> void:
-	var animations: = ["digasbarro", "gidaro", "mauti", "valeri"]
+	var animations: = ["digasbarro", "gidaro", "mauti", "valeri", "binelli", "lionti", "pantaleo", "tauro"]
 	var animation: = str(animations[enemy_identity])
 	$AnimatedSprite.play(animation)
 

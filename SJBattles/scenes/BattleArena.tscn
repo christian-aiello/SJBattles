@@ -22,10 +22,11 @@ scale = Vector2( 3, 3 )
 position = Vector2( 750, 320 )
 
 [node name="XpLabel" type="Label" parent="."]
-margin_left = 88.0
-margin_top = 466.0
-margin_right = 128.0
-margin_bottom = 480.0
+margin_left = 239.0
+margin_top = 197.0
+margin_right = 279.0
+margin_bottom = 211.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "xp"
 
 [node name="EnemyHealthLabel" type="Label" parent="."]
@@ -49,6 +50,15 @@ margin_left = 269.0
 margin_top = 556.0
 margin_right = 768.0
 margin_bottom = 570.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "prompt"
+align = 1
+
+[node name="EnemyLevelLabel" type="Label" parent="."]
+margin_left = 496.0
+margin_top = 206.0
+margin_right = 995.0
+margin_bottom = 220.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "prompt"
 align = 1

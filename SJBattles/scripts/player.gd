@@ -233,9 +233,31 @@ func _physics_process(delta):
 	
 	var battle_target = $RayCast2D.get_collider()
 	if battle_target != null:
-		if battle_target.name == "OverworldBoss":
+		if battle_target.name == "OverworldBoss0":
 			PlayerVariables.enemy_encountered = 0
 			get_tree().change_scene("res://scenes/BattleArena.tscn")
+		if battle_target.name == "OverworldBoss1":
+			PlayerVariables.enemy_encountered = 1
+			get_tree().change_scene("res://scenes/BattleArena.tscn")
+		if battle_target.name == "OverworldBoss2":
+			PlayerVariables.enemy_encountered = 2
+			get_tree().change_scene("res://scenes/BattleArena.tscn")
+		if battle_target.name == "OverworldBoss3":
+			PlayerVariables.enemy_encountered = 3
+			get_tree().change_scene("res://scenes/BattleArena.tscn")
+		if battle_target.name == "OverworldBoss4":
+			PlayerVariables.enemy_encountered = 4
+			get_tree().change_scene("res://scenes/BattleArena.tscn")
+		if battle_target.name == "OverworldBoss5":
+			PlayerVariables.enemy_encountered = 5
+			get_tree().change_scene("res://scenes/BattleArena.tscn")
+		if battle_target.name == "OverworldBoss6":
+			PlayerVariables.enemy_encountered = 6
+			get_tree().change_scene("res://scenes/BattleArena.tscn")
+		if battle_target.name == "OverworldBoss7":
+			PlayerVariables.enemy_encountered = 7
+			get_tree().change_scene("res://scenes/BattleArena.tscn")
+			
 
 func _on_Door_body_entered(body):
 	if body.name == 'Player':

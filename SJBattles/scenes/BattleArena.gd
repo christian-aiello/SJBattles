@@ -18,7 +18,7 @@ var enemy_identity # determines which enemy it is
 
 var hero_animation #checks if the hero needs the idle animation
 
-var hero_max_health: = 2*PlayerVariables.player_level + 30
+var hero_max_health: = 2*PlayerVariables.player_level + 28
 var hero_health: = hero_max_health
 
 var enemy_health
@@ -26,21 +26,32 @@ var enemy_name
 var enemy_max_health
 
 #these two variables may be coming from a signal later
-const HERO_DAMAGE_BASE: = 5
+var hero_damage_base: = PlayerVariables.player_level + 5
 var enemy_damage_base
 
 var damage
-var potions_remaining: = 3 #may be coming from a signal later
-const POTION_VALUE: = 10
+var cookies_remaining: = 3 #may be coming from a signal later
+const COOKIE_VALUE: = 10
 
-const XP_PER_LEVEL: = 100
+const XP_PER_LEVEL: = 200
 
 var rng = RandomNumberGenerator.new() #randomizer
 
 
 	
+#if the player wins the battle, checks if that is the last battle that they need to win
+func check_if_game_beaten():
+	print(PlayerVariables.enemies_beaten)
+	var game_beaten = true
 	
+	for num in PlayerVariables.enemies_beaten:
+		if num == 0:
+			game_beaten = false
+			break
 	
+	if game_beaten == true:
+		get_tree().change_scene("res://scenes/WinScreen.tscn")
+		
 
 #constanlty checking if we need the idle or attack animation
 func _process(delta: float) -> void:
@@ -57,6 +68,8 @@ func _ready() -> void:
 	enemy_identity = PlayerVariables.enemy_encountered
 	emit_signal("enemy_setup", enemy_identity)
 	
+	$EnemyLevelLabel.text = "Level: " + str(enemy_identity+1)
+	
 	
 	$Hero/Player/AnimationPlayer.stop()
 	
@@ -67,16 +80,51 @@ func _ready() -> void:
 	emit_signal("sendEnemyVars", enemy_identity)
 	
 	#setting the variables based on which enemy it is
-	enemy_max_health = int([20,25,30,40][enemy_identity])
+	enemy_max_health = int([30,35,40,45,50,55,60,80][enemy_identity])
 	enemy_health = enemy_max_health
-	enemy_name = str(["Ms. DiGasbarro", "Ms. Gidaro", "Ms. Mauti", "Ms. Valeri"][enemy_identity])
-	enemy_damage_base = int([4,5,6,7][enemy_identity])
+	enemy_name = str(["Ms. DiGasbarro", "Ms. Gidaro", "Ms. Mauti", "Ms. Valeri", "Mr. Binelli", "Mr. Lionti", "Mr. Pantaleo", "Mr. Tauro"][enemy_identity])
+	enemy_damage_base = int([4,5,6,7,8,10,12,15][enemy_identity])
 	
 	rng.randomize() #giving the randomizer randomness
 	update_health() #sets the healths
 	
 	hero_turn()
 	
+
+func back_to_map():
+#determining where to place the user when the battle is done
+	if enemy_identity == 0:
+		PlayerVariables.position_x = -64
+		PlayerVariables.position_y = -811
+		get_tree().change_scene("res://scenes/floor1.tscn")
+	if enemy_identity == 1:
+		PlayerVariables.position_x = -64
+		PlayerVariables.position_y = -691
+		get_tree().change_scene("res://scenes/floor1.tscn")
+	if enemy_identity == 2:
+		PlayerVariables.position_x = 186
+		PlayerVariables.position_y = -134
+		get_tree().change_scene("res://scenes/floor2.tscn")
+	if enemy_identity == 3:
+		PlayerVariables.position_x = -460
+		PlayerVariables.position_y = -68
+		get_tree().change_scene("res://scenes/floor3.tscn")
+	if enemy_identity == 4:
+		PlayerVariables.position_x = -460
+		PlayerVariables.position_y = -150
+		get_tree().change_scene("res://scenes/floor3.tscn")
+	if enemy_identity == 5:
+		PlayerVariables.position_x = -735
+		PlayerVariables.position_y = -1039
+		get_tree().change_scene("res://scenes/floor1.tscn")
+	if enemy_identity == 6:
+		PlayerVariables.position_x = -260
+		PlayerVariables.position_y = -188
+		get_tree().change_scene("res://scenes/floor2.tscn")
+	if enemy_identity == 7:
+		PlayerVariables.position_x = -805
+		PlayerVariables.position_y = -158
+		get_tree().change_scene("res://scenes/floor1.tscn")
 	
 
 #function to show/hide the moves for the hero
@@ -92,7 +140,7 @@ func show_moves(should_show):
 #updates the health bars and xp bar of the players
 func update_health():
 	$HeroHealthLabel.text = str(hero_health) + "/" +str(hero_max_health)
-	$XpLabel.text = "level: " + str(PlayerVariables.player_level) + "   xp: " + str(PlayerVariables.player_xp)
+	$XpLabel.text = "Level: " + str(PlayerVariables.player_level) + "   XP: " + str(PlayerVariables.player_xp)
 	$EnemyHealthLabel.text = str(enemy_health) + "/" + str(enemy_max_health)
 	
 
@@ -102,33 +150,44 @@ func is_game_done():
 	if enemy_health <= 0:
 		#displaying ending info
 		$PromptLabel.text = "Hero Wins!"
+		PlayerVariables.enemies_beaten[enemy_identity] = 1
+		
+		check_if_game_beaten() #checks if the whole game has been beaten
+		
+		#sets a delay
+		$Timer.start()
+		yield($Timer, "timeout")
+		
 		$Enemy.hide()
 		show_moves(false)
 		$FightMusic1.stop()
 		
 		
 		#dealing with the experience points
-		PlayerVariables.player_xp += 150 #150 xp will be the reward for winning
+		PlayerVariables.player_xp += (100+enemy_identity*50) #reward for winning based on the enemy_identity
 		PlayerVariables.player_level += int(PlayerVariables.player_xp / XP_PER_LEVEL) #100xp will be one level
 		PlayerVariables.player_xp = PlayerVariables.player_xp % XP_PER_LEVEL
 		update_health()
 		#emit_signal("send_back_hero_stats", hero_level, hero_xp)
-		
-		#determining where to place the user when the battle is done
-		if enemy_identity == 0:
-			PlayerVariables.position_x = -64
-			PlayerVariables.position_y = -811
-			get_tree().change_scene("res://scenes/floor1.tscn")
+		back_to_map()
 		
 		return true #making sure the script knows that the game is over
+		
 		
 		
 	if hero_health <= 0:
 		#displaying ending info
 		$PromptLabel.text = enemy_name + " Wins!"
+		
+		#sets a delay
+		$Timer.start()
+		yield($Timer, "timeout")
+		
 		$Hero.hide()
 		show_moves(false)
 		$FightMusic1.stop()
+		back_to_map()
+		
 		return true
 	
 	return false
@@ -147,7 +206,7 @@ func enemy_turn():
 	yield($Timer, "timeout")
 	
 	#updating the interface
-	$PromptLabel.text = enemy_name + " Attacked For " + str(damage) + " Damage!"
+	$PromptLabel.text = enemy_name + " Dealt " + str(damage) + " Damage!"
 	#$Punch.play() --> add this back in when we get attack animations
 	
 	emit_signal("enemy_attack")
@@ -157,7 +216,7 @@ func enemy_turn():
 
 #function for starting hero's turn
 func hero_turn():
-	$PromptLabel.text = "Potions Remaining: " + str(potions_remaining)
+	$PromptLabel.text = "Cookies Remaining: " + str(cookies_remaining)
 
 
 #gets the interface ready for the start of a turn, person is for the person who's turn is ending
@@ -194,15 +253,14 @@ func end_turn(person):
 	
 #function for pikachu attacking
 func _on_AttackButton_pressed() -> void:
-	$AttackButton.hide()
-	$ItemButton.hide()
+	show_moves(false)
 	#enemy takes damage
-	damage = HERO_DAMAGE_BASE + rng.randi_range(-2, 2)
+	damage = hero_damage_base + rng.randi_range(-2, 2)
 	enemy_health -= damage
 	enemy_health = max(enemy_health, 0)
 		
 	#updating the interface
-	$PromptLabel.text = "Hero Attacked For " + str(damage) + " Damage!"
+	$PromptLabel.text = "Hero Dealt " + str(damage) + " Damage!"
 	#$Punch.play() --> maybe add this in when we get more attacks
 	
 	#plays one iteration of the attack animation
@@ -216,21 +274,21 @@ func _on_AttackButton_pressed() -> void:
 
 func _on_ItemButton_pressed() -> void:
 	#if you still have potions
-	if potions_remaining > 0:
-		potions_remaining -= 1
-		hero_health += POTION_VALUE
+	if cookies_remaining > 0:
+		cookies_remaining -= 1
+		hero_health += COOKIE_VALUE
 		
 		#making sure we dont go over the max health with a potion
 		if hero_health > hero_max_health:
 			hero_health = hero_max_health
 		
-		$PromptLabel.text = "Hero Used A Potion!"
+		$PromptLabel.text = "Hero Used A Cookie!"
 		#$Heal.play() #lesson learned: .wav files play once, .mp3 files play indefinitely --> ADD BACK IN THE SOUNDS
 		emit_signal("hero_potion")
 		end_turn("Hero")
 	#if you are out of potions
 	else:
-		$PromptLabel.text = "You don't have anymore potions!"
+		$PromptLabel.text = "You don't have anymore cookies!"
 		
 		#sets a delay
 		$Timer.start()
