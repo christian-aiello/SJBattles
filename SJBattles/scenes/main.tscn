@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://assets/tilesets/x_button.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Door.gd" type="Script" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://entities/slime/slime.tscn" type="PackedScene" id=18]
 [ext_resource path="res://scenes/Health Bar.gd" type="Script" id=19]
 [ext_resource path="res://assets/tilesets/TX HP Bar.png" type="Texture" id=20]
+[ext_resource path="res://assets/music/Happy_Loopable.mp3" type="AudioStream" id=21]
 
 [sub_resource type="TileSet" id=1]
 0/name = "TX Tileset Grass.png 0"
@@ -1287,6 +1288,10 @@ anims/up_attack = SubResource( 54 )
 z_index = 4
 enabled = true
 cast_to = Vector2( 0, 32 )
+
+[node name="overworld" type="AudioStreamPlayer" parent="Player"]
+stream = ExtResource( 21 )
+autoplay = true
 
 [node name="Door" type="KinematicBody2D" parent="."]
 position = Vector2( -96, -544 )

@@ -19,7 +19,7 @@ var enemy_identity # determines which enemy it is
 var hero_animation #checks if the hero needs the idle animation
 
 var hero_max_health: = 2*PlayerVariables.player_level + 28
-var hero_health: = hero_max_health
+var hero_health = int(PlayerVariables.health)
 
 var enemy_health
 var enemy_name
@@ -41,7 +41,6 @@ var rng = RandomNumberGenerator.new() #randomizer
 	
 #if the player wins the battle, checks if that is the last battle that they need to win
 func check_if_game_beaten():
-	print(PlayerVariables.enemies_beaten)
 	var game_beaten = true
 	
 	for num in PlayerVariables.enemies_beaten:
@@ -93,6 +92,10 @@ func _ready() -> void:
 
 func back_to_map():
 #determining where to place the user when the battle is done
+	if hero_health == 0:
+		PlayerVariables.health = 1
+	else:
+		PlayerVariables.health = hero_health
 	if enemy_identity == 0:
 		PlayerVariables.position_x = -64
 		PlayerVariables.position_y = -811

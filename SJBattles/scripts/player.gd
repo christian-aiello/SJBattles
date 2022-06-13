@@ -22,7 +22,7 @@ var door_action = false
 onready var AnimationPlayer = $AnimationPlayer
 
 var health = PlayerVariables.health
-var health_max = 100
+var health_max = 2*PlayerVariables.player_level + 28
 var health_regeneration = 1
 var mana = PlayerVariables.mana
 var mana_max = 100
@@ -41,6 +41,7 @@ func _process(delta):
 		var new_health = min(health + health_regeneration * delta, health_max)
 		if new_health != health:
 			health = new_health
+			PlayerVariables.health = health
 			emit_signal("player_stats_changed", self)
 		
 func _ready():
@@ -49,12 +50,13 @@ func _ready():
 	self.direction = PlayerVariables.direction
 	self.position.x = PlayerVariables.position_x
 	self.position.y = PlayerVariables.position_y
+	self.health = PlayerVariables.health 
+	self.health_max = 2*PlayerVariables.player_level + 28
 	
 func hit(damage):
 	health -= damage
 	emit_signal("player_stats_changed", self)
 	if health <= 0:
-		print('DEAD')
 		print('DEAD')
 		get_tree().quit()
 	else:
@@ -190,7 +192,6 @@ func _physics_process(delta):
 			yield(get_tree().create_timer(0.6), 'timeout')
 			get_tree().change_scene("res://scenes/floor2.tscn")
 			
-		print(PlayerVariables.door_entered)
 		
 		
 		
@@ -200,7 +201,7 @@ func _physics_process(delta):
 		move_and_collide(velocity * delta * MAX_SPEED * 0.3)
 	
 	if direction != Vector2.ZERO:
-		$RayCast2D.cast_to = direction.normalized() * 32
+		$RayCast2D.cast_to = direction.normalized() * 50
 		
 	var target = $RayCast2D.get_collider()
 	if target != null:

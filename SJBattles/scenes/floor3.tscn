@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=2]
+[gd_scene load_steps=75 format=2]
 
 [ext_resource path="res://assets/tilesets/TX Tileset Hallway Tiles.png" type="Texture" id=1]
 [ext_resource path="res://scripts/player.gd" type="Script" id=2]
@@ -20,6 +20,13 @@
 [ext_resource path="res://scripts/button_prompt1.gd" type="Script" id=18]
 [ext_resource path="res://scenes/OverworldBoss4.tscn" type="PackedScene" id=19]
 [ext_resource path="res://scenes/OverworldBoss3.tscn" type="PackedScene" id=20]
+[ext_resource path="res://assets/music/Happy_Loopable.mp3" type="AudioStream" id=21]
+[ext_resource path="res://scenes/Mana Bar.gd" type="Script" id=22]
+[ext_resource path="res://scenes/Health Bar.gd" type="Script" id=23]
+[ext_resource path="res://assets/tilesets/TX Mana Border .png" type="Texture" id=24]
+[ext_resource path="res://assets/tilesets/TX Mana Bar.png" type="Texture" id=25]
+[ext_resource path="res://assets/tilesets/TX HP Bar.png" type="Texture" id=26]
+[ext_resource path="res://assets/tilesets/TX HP Border.png" type="Texture" id=27]
 
 [sub_resource type="TileSet" id=33]
 0/name = "TX Tileset Grass.png 0"
@@ -1520,6 +1527,10 @@ z_index = 4
 enabled = true
 cast_to = Vector2( 0, 32 )
 
+[node name="overworld" type="AudioStreamPlayer" parent="Player"]
+stream = ExtResource( 21 )
+autoplay = true
+
 [node name="Tileset Walls" type="TileMap" parent="."]
 tile_set = SubResource( 56 )
 cell_size = Vector2( 32, 32 )
@@ -1645,6 +1656,37 @@ position = Vector2( -534, -150 )
 scale = Vector2( 2, 2 )
 z_index = 2
 
+[node name="Mana Bar" type="CanvasLayer" parent="."]
+script = ExtResource( 22 )
+
+[node name="Border" type="Sprite" parent="Mana Bar"]
+position = Vector2( 86, 52 )
+texture = ExtResource( 24 )
+
+[node name="Bar" type="Sprite" parent="Mana Bar"]
+position = Vector2( 97.5, 52 )
+scale = Vector2( 1, 1.02684 )
+texture = ExtResource( 25 )
+region_enabled = true
+region_rect = Rect2( 29, 8, 125, 16 )
+
+[node name="Health Bar" type="CanvasLayer" parent="."]
+script = ExtResource( 23 )
+
+[node name="Border" type="Sprite" parent="Health Bar"]
+position = Vector2( 86, 21 )
+texture = ExtResource( 27 )
+
+[node name="Bar" type="Sprite" parent="Health Bar"]
+position = Vector2( 97.5, 21 )
+scale = Vector2( 1, 1.02684 )
+texture = ExtResource( 26 )
+region_enabled = true
+region_rect = Rect2( 29, 8, 125, 16 )
+
+[connection signal="button_prompt" from="Player" to="Action Prompt/Sprite" method="_on_Player_button_prompt"]
+[connection signal="player_stats_changed" from="Player" to="Mana Bar" method="_on_Player_player_stats_changed"]
+[connection signal="player_stats_changed" from="Player" to="Health Bar" method="_on_Player_player_stats_changed"]
 [connection signal="body_entered" from="Left Hallway Up/lu3" to="Player" method="_on_lu3_body_entered"]
 [connection signal="body_exited" from="Left Hallway Up/lu3" to="Player" method="_on_lu3_body_exited"]
 [connection signal="body_entered" from="Right Hallway Up/ru3" to="Player" method="_on_ru3_body_entered"]

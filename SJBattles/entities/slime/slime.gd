@@ -14,7 +14,7 @@ var countdown = 0
 
 var health = 20
 
-var attack_damage = 20
+var attack_damage = 5
 var attack_cooldown_time = 1500
 var next_attack_time = 0
 
@@ -71,7 +71,7 @@ func _physics_process(delta):
 			AnimationPlayer.play('up')
 			
 	if direction != Vector2.ZERO:
-		$RayCast2D.cast_to = direction.normalized() * 25
+		$RayCast2D.cast_to = direction.normalized() * 20
 		
 func _process(_delta):
 	var now = OS.get_ticks_msec()
