@@ -1648,12 +1648,12 @@ script = ExtResource( 18 )
 
 [node name="OverworldBoss3" parent="." instance=ExtResource( 20 )]
 position = Vector2( -532, -65 )
-scale = Vector2( 2, 2 )
+scale = Vector2( 2.5, 2.5 )
 z_index = 2
 
 [node name="OverworldBoss4" parent="." instance=ExtResource( 19 )]
 position = Vector2( -534, -150 )
-scale = Vector2( 2, 2 )
+scale = Vector2( 2.5, 2.5 )
 z_index = 2
 
 [node name="Mana Bar" type="CanvasLayer" parent="."]

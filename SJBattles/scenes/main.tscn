@@ -1329,11 +1329,11 @@ anims/RESET = SubResource( 42 )
 anims/open = SubResource( 43 )
 
 [node name="Slime" parent="." instance=ExtResource( 18 )]
-position = Vector2( -162, -99 )
+position = Vector2( -162, -136 )
 z_index = 4
 
 [node name="Slime2" parent="." instance=ExtResource( 18 )]
-position = Vector2( -159, -16 )
+position = Vector2( -193, -30 )
 z_index = 4
 
 [node name="Slime3" parent="." instance=ExtResource( 18 )]
