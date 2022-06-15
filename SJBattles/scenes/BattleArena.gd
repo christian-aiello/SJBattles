@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-
+var p = PlayerVariables
 
 signal send_enemy_stats
 signal send_back_hero_stats
@@ -26,7 +26,7 @@ var enemy_name
 var enemy_max_health
 
 #these two variables may be coming from a signal later
-var hero_damage_base: = PlayerVariables.player_level + 5
+var hero_damage_base: = 5000
 var enemy_damage_base
 
 var damage
@@ -143,7 +143,7 @@ func show_moves(should_show):
 #updates the health bars and xp bar of the players
 func update_health():
 	$HeroHealthLabel.text = str(hero_health) + "/" +str(hero_max_health)
-	$XpLabel.text = "Level: " + str(PlayerVariables.player_level) + "   XP: " + str(PlayerVariables.player_xp)
+	$XpLabel.text = "Level: " + str(PlayerVariables.player_level) + "   XP: " + str(p.current_level_xp) + '/' + str(p.current_level_total_xp)
 	$EnemyHealthLabel.text = str(enemy_health) + "/" + str(enemy_max_health)
 	
 
@@ -152,8 +152,15 @@ func update_health():
 func is_game_done():
 	if enemy_health <= 0:
 		#displaying ending info
+		var xp_won = int((100+enemy_identity*50) * rng.randf_range(0.75, 1.25))
 		$PromptLabel.text = "Hero Wins!"
-		PlayerVariables.enemies_beaten[enemy_identity] = 1
+		yield(get_tree().create_timer(1), 'timeout')
+		p.player_xp += xp_won
+		p.level_calculation()
+		update_health()
+		$PromptLabel.text = "You won " + str(xp_won) + " xp!"
+		yield(get_tree().create_timer(1), 'timeout')
+		p.enemies_beaten[enemy_identity] = 1
 		
 		check_if_game_beaten() #checks if the whole game has been beaten
 		
@@ -167,9 +174,10 @@ func is_game_done():
 		
 		
 		#dealing with the experience points
-		PlayerVariables.player_xp += (100+enemy_identity*50) #reward for winning based on the enemy_identity
-		PlayerVariables.player_level += int(PlayerVariables.player_xp / XP_PER_LEVEL) #100xp will be one level
-		PlayerVariables.player_xp = PlayerVariables.player_xp % XP_PER_LEVEL
+		#reward for winning based on the enemy_identity
+		
+		p.level_calculation()
+			
 		update_health()
 		#emit_signal("send_back_hero_stats", hero_level, hero_xp)
 		back_to_map()

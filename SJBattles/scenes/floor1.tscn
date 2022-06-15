@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=2]
+[gd_scene load_steps=78 format=2]
 
 [ext_resource path="res://assets/tilesets/TX Tileset Hallway Tiles.png" type="Texture" id=1]
 [ext_resource path="res://scripts/player.gd" type="Script" id=2]
@@ -29,6 +29,7 @@
 [ext_resource path="res://assets/tilesets/TX HP Bar.png" type="Texture" id=27]
 [ext_resource path="res://assets/tilesets/TX HP Border.png" type="Texture" id=28]
 [ext_resource path="res://assets/music/Happy_Loopable.mp3" type="AudioStream" id=29]
+[ext_resource path="res://scripts/level_bar.gd" type="Script" id=30]
 
 [sub_resource type="TileSet" id=33]
 0/name = "TX Tileset Grass.png 0"
@@ -1696,9 +1697,54 @@ texture = ExtResource( 27 )
 region_enabled = true
 region_rect = Rect2( 29, 8, 125, 16 )
 
+[node name="Level Bar" type="CanvasLayer" parent="."]
+script = ExtResource( 30 )
+
+[node name="Border" type="ColorRect" parent="Level Bar"]
+margin_left = 7.0
+margin_top = 68.0
+margin_right = 165.0
+margin_bottom = 94.0
+color = Color( 0, 0, 0, 0.392157 )
+
+[node name="Border 2" type="ColorRect" parent="Level Bar"]
+margin_left = 9.0
+margin_top = 70.0
+margin_right = 163.0
+margin_bottom = 92.0
+
+[node name="Border 3" type="ColorRect" parent="Level Bar"]
+margin_left = 10.0
+margin_top = 71.0
+margin_right = 162.0
+margin_bottom = 91.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Level" type="ColorRect" parent="Level Bar"]
+margin_left = 11.0
+margin_top = 72.0
+margin_right = 161.0
+margin_bottom = 90.0
+
+[node name="Level_Text" type="RichTextLabel" parent="Level Bar"]
+margin_left = 7.0
+margin_top = 97.0
+margin_right = 165.0
+margin_bottom = 116.0
+text = "Level 1"
+
+[node name="XP_Text" type="RichTextLabel" parent="Level Bar"]
+margin_left = 7.0
+margin_top = 111.0
+margin_right = 165.0
+margin_bottom = 130.0
+text = "50/100 XP"
+
 [connection signal="button_prompt" from="Player" to="Action Prompt/Sprite" method="_on_Player_button_prompt"]
+[connection signal="player_stats_changed" from="Player" to="Player" method="_on_Player_player_stats_changed"]
 [connection signal="player_stats_changed" from="Player" to="Mana Bar" method="_on_Player_player_stats_changed"]
 [connection signal="player_stats_changed" from="Player" to="Health Bar" method="_on_Player_player_stats_changed"]
+[connection signal="player_stats_changed" from="Player" to="Level Bar" method="_on_Player_player_stats_changed"]
 [connection signal="body_entered" from="Left Hallway Up/lu1" to="Player" method="_on_lu1_body_entered"]
 [connection signal="body_exited" from="Left Hallway Up/lu1" to="Player" method="_on_lu1_body_exited"]
 [connection signal="body_entered" from="Right Hallway Up/ru1" to="Player" method="_on_ru1_body_entered"]

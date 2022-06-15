@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=2]
+[gd_scene load_steps=63 format=2]
 
 [ext_resource path="res://assets/tilesets/x_button.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Door.gd" type="Script" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://scenes/Health Bar.gd" type="Script" id=19]
 [ext_resource path="res://assets/tilesets/TX HP Bar.png" type="Texture" id=20]
 [ext_resource path="res://assets/music/Happy_Loopable.mp3" type="AudioStream" id=21]
+[ext_resource path="res://scripts/level_bar.gd" type="Script" id=22]
 
 [sub_resource type="TileSet" id=1]
 0/name = "TX Tileset Grass.png 0"
@@ -1163,6 +1164,49 @@ tracks/0/keys = {
 [node name="Root" type="Node2D"]
 z_index = 5
 
+[node name="Level Bar" type="CanvasLayer" parent="."]
+script = ExtResource( 22 )
+
+[node name="Border" type="ColorRect" parent="Level Bar"]
+margin_left = 7.0
+margin_top = 68.0
+margin_right = 165.0
+margin_bottom = 94.0
+color = Color( 0, 0, 0, 0.392157 )
+
+[node name="Border 2" type="ColorRect" parent="Level Bar"]
+margin_left = 9.0
+margin_top = 70.0
+margin_right = 163.0
+margin_bottom = 92.0
+
+[node name="Border 3" type="ColorRect" parent="Level Bar"]
+margin_left = 10.0
+margin_top = 71.0
+margin_right = 162.0
+margin_bottom = 91.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Level" type="ColorRect" parent="Level Bar"]
+margin_left = 11.0
+margin_top = 72.0
+margin_right = 161.0
+margin_bottom = 90.0
+
+[node name="Level_Text" type="RichTextLabel" parent="Level Bar"]
+margin_left = 7.0
+margin_top = 97.0
+margin_right = 165.0
+margin_bottom = 116.0
+text = "Level 1"
+
+[node name="XP_Text" type="RichTextLabel" parent="Level Bar"]
+margin_left = 7.0
+margin_top = 111.0
+margin_right = 165.0
+margin_bottom = 130.0
+text = "50/100 XP"
+
 [node name="Mana Bar" type="CanvasLayer" parent="."]
 script = ExtResource( 17 )
 
@@ -1343,5 +1387,6 @@ z_index = 4
 [connection signal="button_prompt" from="Player" to="Action Prompt/Sprite" method="_on_player_button_prompt"]
 [connection signal="open_door" from="Player" to="Door" method="_on_player_open_door"]
 [connection signal="open_door_two" from="Player" to="Door2" method="_on_player_open_door_two"]
+[connection signal="player_stats_changed" from="Player" to="Level Bar" method="_on_Player_player_stats_changed"]
 [connection signal="player_stats_changed" from="Player" to="Mana Bar" method="_on_Player_player_stats_changed"]
 [connection signal="player_stats_changed" from="Player" to="Health Bar" method="_on_Player_player_stats_changed"]

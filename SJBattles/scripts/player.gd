@@ -406,3 +406,5 @@ func _on_ru3_body_entered(body: Node) -> void:
 
 func _on_ru3_body_exited(body: Node) -> void:
 	pass # Replace with function body.
+
+
