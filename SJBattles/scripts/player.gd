@@ -260,6 +260,7 @@ func _physics_process(delta):
 			get_tree().change_scene("res://scenes/BattleArena.tscn")
 			
 
+
 func _on_Door_body_entered(body):
 	if body.name == 'Player':
 		PlayerVariables.position_x = -32

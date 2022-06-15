@@ -109,7 +109,7 @@ func back_to_map():
 		PlayerVariables.position_y = -134
 		get_tree().change_scene("res://scenes/floor2.tscn")
 	if enemy_identity == 3:
-		PlayerVariables.position_x = -460
+		PlayerVariables.position_x = -430
 		PlayerVariables.position_y = -68
 		get_tree().change_scene("res://scenes/floor3.tscn")
 	if enemy_identity == 4:
