@@ -13,6 +13,8 @@ var mana = 100
 var current_level_xp = 0
 var current_level_total_xp = 100
 
+var num_cookies = 0
+
 var enemies_beaten = [0,0,0,0,0,0,0,0]
 
 var levels = [100, 150, 200, 300, 400, 550, 700, 900, 1100, 1300, 

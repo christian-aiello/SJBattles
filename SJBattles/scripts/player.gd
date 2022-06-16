@@ -8,6 +8,7 @@ signal enter_door
 signal player_stats_changed
 signal battle_begin
 
+
 const ACCELERATION = 10
 const MAX_SPEED = 100
 const FRICTION = 5
@@ -205,6 +206,10 @@ func _physics_process(delta):
 		
 	var target = $RayCast2D.get_collider()
 	if target != null:
+		
+		if target.name.find("Cookie") >= 0:
+			target.cookie_found()
+		
 		if target.name == 'Door' and direction == Vector2(0, -1):
 			if door_action != true:
 				door_action = true
@@ -406,5 +411,4 @@ func _on_ru3_body_entered(body: Node) -> void:
 
 func _on_ru3_body_exited(body: Node) -> void:
 	pass # Replace with function body.
-
 

@@ -30,7 +30,6 @@ var hero_damage_base: = 5000
 var enemy_damage_base
 
 var damage
-var cookies_remaining: = 3 #may be coming from a signal later
 const COOKIE_VALUE: = 10
 
 const XP_PER_LEVEL: = 200
@@ -227,7 +226,7 @@ func enemy_turn():
 
 #function for starting hero's turn
 func hero_turn():
-	$PromptLabel.text = "Cookies Remaining: " + str(cookies_remaining)
+	$PromptLabel.text = "Cookies Remaining: " + str(PlayerVariables.num_cookies)
 
 
 #gets the interface ready for the start of a turn, person is for the person who's turn is ending
@@ -285,8 +284,8 @@ func _on_AttackButton_pressed() -> void:
 
 func _on_ItemButton_pressed() -> void:
 	#if you still have potions
-	if cookies_remaining > 0:
-		cookies_remaining -= 1
+	if PlayerVariables.num_cookies > 0:
+		PlayerVariables.num_cookies -= 1
 		hero_health += COOKIE_VALUE
 		
 		#making sure we dont go over the max health with a potion
