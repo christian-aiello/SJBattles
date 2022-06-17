@@ -23,11 +23,13 @@ func hit(damage):
 	if health > 0:
 		pass #Replace with damage code
 	else:
+		
 		$Timer.stop()
 		direction = Vector2.ZERO
 		set_process(false)
 		emit_signal("death")
 		get_tree().queue_delete(self)
+		
 
 func _ready():
 	player = get_tree().root.get_node("Root/Player")

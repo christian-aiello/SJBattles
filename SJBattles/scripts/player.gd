@@ -58,8 +58,13 @@ func hit(damage):
 	health -= damage
 	emit_signal("player_stats_changed", self)
 	if health <= 0:
-		print('DEAD')
-		get_tree().quit()
+		PlayerVariables.position_x = 0
+		PlayerVariables.position_y = 0
+		yield(get_tree().create_timer(0.6), 'timeout')
+		get_tree().change_scene("res://scenes/main.tscn")
+		
+		#print('DEAD')
+		#get_tree().quit()
 	else:
 		pass
 		

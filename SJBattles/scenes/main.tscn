@@ -836,7 +836,7 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 11/z_index = 0
 
 [sub_resource type="RectangleShape2D" id=55]
-extents = Vector2( 11, 10.5 )
+extents = Vector2( 14.5, 24 )
 
 [sub_resource type="Animation" id=8]
 length = 0.001
@@ -1303,7 +1303,7 @@ vframes = 11
 frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2( 1, 7.5 )
+position = Vector2( 1.5, 0 )
 z_index = 4
 shape = SubResource( 55 )
 
