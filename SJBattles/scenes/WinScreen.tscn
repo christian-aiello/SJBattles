@@ -1,11 +1,10 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/tilesets/WinScreen.png" type="Texture" id=1]
 
 [node name="WinScreen" type="CanvasLayer"]
 
-[node name="Label" type="Label" parent="."]
-margin_left = 464.0
-margin_top = 292.0
-margin_right = 536.0
-margin_bottom = 306.0
-custom_colors/font_color = Color( 0.894118, 0.823529, 0.0705882, 1 )
-text = "YOU WIN :)"
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 508, 300.5 )
+scale = Vector2( 10.3, 6.51 )
+texture = ExtResource( 1 )

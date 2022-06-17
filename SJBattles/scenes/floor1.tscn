@@ -1614,7 +1614,7 @@ z_index = 1
 script = ExtResource( 14 )
 
 [node name="Sprite" type="Sprite" parent="Left Hallway Down"]
-position = Vector2( 77, 38 )
+position = Vector2( 76, 38 )
 texture = ExtResource( 15 )
 offset = Vector2( -77, -38 )
 hframes = 2
@@ -1764,5 +1764,5 @@ z_index = 2
 [connection signal="body_exited" from="Right Hallway Down/rd1" to="Player" method="_on_rd1_body_exited"]
 [connection signal="body_entered" from="Left Hallway Down/ld1" to="Player" method="_on_ld1_body_entered"]
 [connection signal="body_exited" from="Left Hallway Down/ld1" to="Player" method="_on_ld1_body_exited"]
-[connection signal="body_entered" from="Door" to="Player" method="_on_Door_body_entered"]
 [connection signal="body_entered" from="Door" to="Player" method="_on_Area2D_body_entered"]
+[connection signal="body_entered" from="Door" to="Player" method="_on_Door_body_entered"]
