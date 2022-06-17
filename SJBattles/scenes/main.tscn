@@ -17,7 +17,7 @@
 [ext_resource path="res://assets/tilesets/TX Mana Border .png" type="Texture" id=15]
 [ext_resource path="res://assets/tilesets/TX Mana Bar.png" type="Texture" id=16]
 [ext_resource path="res://scenes/Mana Bar.gd" type="Script" id=17]
-[ext_resource path="res://entities/slime/slime.tscn" type="PackedScene" id=18]
+[ext_resource path="res://entities/slimespawner/slimespawner.tscn" type="PackedScene" id=18]
 [ext_resource path="res://scenes/Health Bar.gd" type="Script" id=19]
 [ext_resource path="res://assets/tilesets/TX HP Bar.png" type="Texture" id=20]
 [ext_resource path="res://assets/music/Happy_Loopable.mp3" type="AudioStream" id=21]
@@ -1372,17 +1372,8 @@ shape = SubResource( 44 )
 anims/RESET = SubResource( 42 )
 anims/open = SubResource( 43 )
 
-[node name="Slime" parent="." instance=ExtResource( 18 )]
-position = Vector2( -162, -136 )
-z_index = 4
-
-[node name="Slime2" parent="." instance=ExtResource( 18 )]
-position = Vector2( -193, -30 )
-z_index = 4
-
-[node name="Slime3" parent="." instance=ExtResource( 18 )]
-position = Vector2( -116, 18 )
-z_index = 4
+[node name="slimespawner" parent="." instance=ExtResource( 18 )]
+z_index = 3
 
 [connection signal="button_prompt" from="Player" to="Action Prompt/Sprite" method="_on_player_button_prompt"]
 [connection signal="open_door" from="Player" to="Door" method="_on_player_open_door"]

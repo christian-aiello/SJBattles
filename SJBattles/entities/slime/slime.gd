@@ -4,6 +4,7 @@ signal death
 
 
 var player
+var spawner
 var rng = RandomNumberGenerator.new()
 onready var AnimationPlayer = $AnimationPlayer
 
@@ -23,17 +24,19 @@ func hit(damage):
 	if health > 0:
 		pass #Replace with damage code
 	else:
-		
 		$Timer.stop()
 		direction = Vector2.ZERO
 		set_process(false)
 		emit_signal("death")
+		player.add_xp(int(10 * rng.randf_range(0.75, 1.25)))
+		spawner.slime_count -= 1
 		get_tree().queue_delete(self)
-		
 
 func _ready():
 	player = get_tree().root.get_node("Root/Player")
+	spawner = get_tree().root.get_node("Root/slimespawner")
 	rng.randomize()
+	$Timer.start()
 	
 func _on_Timer_timeout():
 	var rel_player_pos = player.position - position
@@ -84,3 +87,4 @@ func _process(_delta):
 			next_attack_time = now + attack_cooldown_time
 
 		
+
